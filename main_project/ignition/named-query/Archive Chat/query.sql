@@ -1,0 +1,1 @@
+UPDATE chats SET archived = :archived, archived_by = :archived_by WHERE id = :chatId

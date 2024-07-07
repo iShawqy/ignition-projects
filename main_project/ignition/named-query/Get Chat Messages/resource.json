@@ -1,0 +1,45 @@
+{
+  "scope": "DG",
+  "version": 2,
+  "restricted": false,
+  "overridable": true,
+  "files": [
+    "query.sql"
+  ],
+  "attributes": {
+    "useMaxReturnSize": false,
+    "autoBatchEnabled": false,
+    "fallbackValue": "",
+    "maxReturnSize": 100,
+    "cacheUnit": "SEC",
+    "type": "Query",
+    "enabled": true,
+    "cacheAmount": 1,
+    "cacheEnabled": false,
+    "database": "db_chatApp",
+    "fallbackEnabled": false,
+    "lastModificationSignature": "087d398c085edad3a9a242334cd67e8387340e168d22ecd126c0ae28f4e8aae6",
+    "permissions": [
+      {
+        "zone": "",
+        "role": ""
+      }
+    ],
+    "lastModification": {
+      "actor": "Ibra",
+      "timestamp": "2024-05-25T10:04:12Z"
+    },
+    "parameters": [
+      {
+        "type": "Parameter",
+        "identifier": "user_id",
+        "sqlType": 3
+      },
+      {
+        "type": "Parameter",
+        "identifier": "recipient_user_id",
+        "sqlType": 3
+      }
+    ]
+  }
+}

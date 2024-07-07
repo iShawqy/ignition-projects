@@ -1,0 +1,627 @@
+{
+  "custom": {},
+  "params": {},
+  "propConfig": {
+    "custom.currentView": {
+      "binding": {
+        "config": {
+          "expression": "\u0027chatsList\u0027"
+        },
+        "type": "expr"
+      },
+      "persistent": false
+    },
+    "custom.mode": {
+      "binding": {
+        "config": {
+          "expression": "if({view.custom.viewportWidth}\u003c600, \u0027mobile\u0027,\u0027web\u0027)"
+        },
+        "type": "expr"
+      },
+      "persistent": false
+    },
+    "custom.typedPassword": {
+      "access": "PRIVATE",
+      "binding": {
+        "config": {
+          "bidirectional": true,
+          "path": "/root/FlexContainer Login Main/FlexContainer Login/FlexContainer Password/PasswordField.props.text"
+        },
+        "type": "property"
+      },
+      "persistent": false
+    },
+    "custom.typedUsername": {
+      "access": "PRIVATE",
+      "binding": {
+        "config": {
+          "bidirectional": true,
+          "path": "/root/FlexContainer Login Main/FlexContainer Login/FlexContainer Username/TextField Username.props.text"
+        },
+        "type": "property"
+      },
+      "persistent": false
+    },
+    "custom.userId": {
+      "binding": {
+        "config": {
+          "expression": "null"
+        },
+        "type": "expr"
+      },
+      "persistent": false
+    },
+    "custom.userLoggedIn": {
+      "access": "PRIVATE",
+      "binding": {
+        "config": {
+          "expression": "false"
+        },
+        "type": "expr"
+      },
+      "persistent": false
+    },
+    "custom.usernamePasswordError": {
+      "binding": {
+        "config": {
+          "expression": "false"
+        },
+        "type": "expr"
+      },
+      "persistent": false
+    },
+    "custom.viewportWidth": {
+      "binding": {
+        "config": {
+          "expression": "if({session.props.device.type}!\u003d\u0027designer\u0027, {page.props.dimensions.viewport.width},\u00271000\u0027)"
+        },
+        "type": "expr"
+      },
+      "persistent": false
+    }
+  },
+  "props": {
+    "defaultSize": {
+      "height": 797,
+      "width": 1097
+    }
+  },
+  "root": {
+    "children": [
+      {
+        "children": [
+          {
+            "meta": {
+              "name": "EmbeddedView Chats List"
+            },
+            "position": {
+              "basis": "20%",
+              "shrink": 0
+            },
+            "propConfig": {
+              "position.display": {
+                "binding": {
+                  "config": {
+                    "expression": "\n\n\ncase({view.custom.mode},\n\n\u0027web\u0027, true,\n\u0027mobile\u0027, if({view.custom.currentView}\u003d\"chatsList\",true, false),true)"
+                  },
+                  "type": "expr"
+                }
+              },
+              "position.grow": {
+                "binding": {
+                  "config": {
+                    "expression": "if({view.custom.mode}\u003d\u0027mobile\u0027,1,0)"
+                  },
+                  "type": "expr"
+                }
+              },
+              "props.params.mode": {
+                "binding": {
+                  "config": {
+                    "path": "view.custom.mode"
+                  },
+                  "type": "property"
+                }
+              },
+              "props.params.userID": {
+                "binding": {
+                  "config": {
+                    "path": "view.custom.userId"
+                  },
+                  "type": "property"
+                }
+              },
+              "props.style.minWidth": {
+                "binding": {
+                  "config": {
+                    "expression": "if({view.custom.mode}\u003d\u0027mobile\u0027, {view.custom.viewportWidth}, \"420px\")"
+                  },
+                  "type": "expr"
+                }
+              }
+            },
+            "props": {
+              "path": "chatApp/Chats List",
+              "style": {
+                "classes": "dark-container"
+              }
+            },
+            "type": "ia.display.view"
+          },
+          {
+            "meta": {
+              "name": "EmbeddedView Chat Area"
+            },
+            "position": {
+              "grow": 1
+            },
+            "propConfig": {
+              "position.display": {
+                "binding": {
+                  "config": {
+                    "expression": "\n\n\ncase({view.custom.mode},\n\n\u0027web\u0027, true,\n\u0027mobile\u0027, if({view.custom.currentView}\u003d\"chatArea\",true, false),true)"
+                  },
+                  "type": "expr"
+                }
+              },
+              "props.params.chaterId": {
+                "binding": {
+                  "config": {
+                    "path": "view.custom.userId"
+                  },
+                  "type": "property"
+                }
+              },
+              "props.params.mode": {
+                "binding": {
+                  "config": {
+                    "path": "view.custom.mode"
+                  },
+                  "type": "property"
+                }
+              }
+            },
+            "props": {
+              "path": "chatApp/Chat Area"
+            },
+            "type": "ia.display.view"
+          }
+        ],
+        "meta": {
+          "name": "FlexContainer Main"
+        },
+        "position": {
+          "basis": "autp",
+          "grow": 1
+        },
+        "propConfig": {
+          "position.display": {
+            "binding": {
+              "config": {
+                "path": "view.custom.userLoggedIn"
+              },
+              "type": "property"
+            }
+          }
+        },
+        "props": {
+          "style": {
+            "height": "100%",
+            "overflow": "hidden"
+          }
+        },
+        "type": "ia.container.flex"
+      },
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "meta": {
+                  "name": "Label Welecome Message"
+                },
+                "props": {
+                  "style": {
+                    "color": "#FFFFFF",
+                    "fontFamily": "sans-serif",
+                    "fontSize": "18px"
+                  },
+                  "text": "Welcome Back!"
+                },
+                "type": "ia.display.label"
+              }
+            ],
+            "meta": {
+              "name": "FlexContainer Right Welcome Message"
+            },
+            "position": {
+              "basis": "150px",
+              "shrink": 0
+            },
+            "propConfig": {
+              "position.display": {
+                "binding": {
+                  "config": {
+                    "expression": "if({view.custom.mode} \u003d \u0027web\u0027,true, false)"
+                  },
+                  "type": "expr"
+                }
+              }
+            },
+            "props": {
+              "alignItems": "center",
+              "direction": "column",
+              "justify": "center",
+              "style": {
+                "backgroundImage": "linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%)\n",
+                "borderBottomLeftRadius": "10px",
+                "borderBottomRightRadius": "10px",
+                "borderTopLeftRadius": "10px",
+                "borderTopRightRadius": "10px",
+                "margin": "5px",
+                "overflow": "hidden"
+              }
+            },
+            "type": "ia.container.flex"
+          },
+          {
+            "children": [
+              {
+                "meta": {
+                  "name": "Label Login"
+                },
+                "position": {
+                  "display": false,
+                  "shrink": 0
+                },
+                "props": {
+                  "style": {
+                    "color": "#D5D5D5",
+                    "fontFamily": "Arial",
+                    "fontSize": "18px",
+                    "fontWeight": "bold",
+                    "marginLeft": "10px",
+                    "textAlign": "center"
+                  },
+                  "text": "LOGIN"
+                },
+                "type": "ia.display.label"
+              },
+              {
+                "children": [
+                  {
+                    "meta": {
+                      "name": "Label"
+                    },
+                    "position": {
+                      "display": false,
+                      "shrink": 0
+                    },
+                    "props": {
+                      "style": {
+                        "color": "#D5D5D5",
+                        "fontFamily": "Arial",
+                        "fontSize": "14px"
+                      },
+                      "text": "Username: "
+                    },
+                    "type": "ia.display.label"
+                  },
+                  {
+                    "events": {
+                      "dom": {
+                        "onKeyUp": {
+                          "config": {
+                            "script": "\tif event.key \u003d\u003d \"Enter\":\n\t\tself.view.getChild(\"root\").login()"
+                          },
+                          "scope": "G",
+                          "type": "script"
+                        }
+                      }
+                    },
+                    "meta": {
+                      "name": "TextField Username"
+                    },
+                    "position": {
+                      "grow": 1,
+                      "shrink": 0
+                    },
+                    "propConfig": {
+                      "props.text": {
+                        "binding": {
+                          "config": {
+                            "expression": "\u0027\u0027"
+                          },
+                          "type": "expr"
+                        }
+                      }
+                    },
+                    "props": {
+                      "deferUpdates": false,
+                      "placeholder": "username...",
+                      "rejectUpdatesWhileFocused": false,
+                      "style": {
+                        "backgroundColor": "#2B2B2B",
+                        "borderBottomLeftRadius": "10px",
+                        "borderBottomRightRadius": "10px",
+                        "borderTopLeftRadius": "10px",
+                        "borderTopRightRadius": "10px",
+                        "color": "#D5D5D5",
+                        "height": "30px",
+                        "margin": "5px"
+                      }
+                    },
+                    "type": "ia.input.text-field"
+                  }
+                ],
+                "meta": {
+                  "name": "FlexContainer Username"
+                },
+                "props": {
+                  "style": {
+                    "margin": "5px",
+                    "overflow": "hidden"
+                  }
+                },
+                "type": "ia.container.flex"
+              },
+              {
+                "children": [
+                  {
+                    "meta": {
+                      "name": "Label"
+                    },
+                    "position": {
+                      "display": false,
+                      "shrink": 0
+                    },
+                    "props": {
+                      "style": {
+                        "color": "#D5D5D5",
+                        "fontFamily": "Arial",
+                        "fontSize": "14px"
+                      },
+                      "text": "Password: "
+                    },
+                    "type": "ia.display.label"
+                  },
+                  {
+                    "events": {
+                      "dom": {
+                        "onKeyUp": {
+                          "config": {
+                            "script": "\tif event.key \u003d\u003d \"Enter\":\n\t\tself.view.getChild(\"root\").login()"
+                          },
+                          "scope": "G",
+                          "type": "script"
+                        }
+                      }
+                    },
+                    "meta": {
+                      "name": "PasswordField"
+                    },
+                    "position": {
+                      "grow": 1,
+                      "shrink": 0
+                    },
+                    "propConfig": {
+                      "props.text": {
+                        "binding": {
+                          "config": {
+                            "expression": "\u0027\u0027"
+                          },
+                          "type": "expr"
+                        }
+                      }
+                    },
+                    "props": {
+                      "placeholder": "password...",
+                      "style": {
+                        "backgroundColor": "#2B2B2B",
+                        "borderBottomLeftRadius": "10px",
+                        "borderBottomRightRadius": "10px",
+                        "borderTopLeftRadius": "10px",
+                        "borderTopRightRadius": "10px",
+                        "color": "#D5D5D5",
+                        "height": "30px",
+                        "margin": "5px"
+                      }
+                    },
+                    "type": "ia.input.password-field"
+                  }
+                ],
+                "meta": {
+                  "name": "FlexContainer Password"
+                },
+                "props": {
+                  "style": {
+                    "margin": "5px",
+                    "overflow": "hidden"
+                  }
+                },
+                "type": "ia.container.flex"
+              },
+              {
+                "children": [
+                  {
+                    "events": {
+                      "component": {
+                        "onActionPerformed": {
+                          "config": {
+                            "script": "\tself.view.getChild(\"root\").login()"
+                          },
+                          "scope": "G",
+                          "type": "script"
+                        }
+                      }
+                    },
+                    "meta": {
+                      "name": "Button Login"
+                    },
+                    "position": {
+                      "basis": "60px",
+                      "shrink": 0
+                    },
+                    "props": {
+                      "style": {
+                        "classes": "dark-button-primary",
+                        "fontFamily": "Arial",
+                        "fontSize": "12px",
+                        "width": "30px"
+                      },
+                      "text": "LOGIN"
+                    },
+                    "type": "ia.input.button"
+                  }
+                ],
+                "meta": {
+                  "name": "FlexContainer Button"
+                },
+                "props": {
+                  "alignItems": "center",
+                  "justify": "center",
+                  "style": {
+                    "margin": "5px",
+                    "overflow": "hidden"
+                  }
+                },
+                "type": "ia.container.flex"
+              },
+              {
+                "meta": {
+                  "name": "Label"
+                },
+                "position": {
+                  "basis": "32px"
+                },
+                "propConfig": {
+                  "meta.visible": {
+                    "binding": {
+                      "config": {
+                        "path": "view.custom.usernamePasswordError"
+                      },
+                      "type": "property"
+                    }
+                  }
+                },
+                "props": {
+                  "style": {
+                    "color": "#FF4747",
+                    "fontFamily": "Arial",
+                    "fontSize": "14px",
+                    "textAlign": "center"
+                  },
+                  "text": "Username/Password incorrect!"
+                },
+                "type": "ia.display.label"
+              }
+            ],
+            "meta": {
+              "name": "FlexContainer Login"
+            },
+            "position": {
+              "basis": "250px",
+              "shrink": 0
+            },
+            "propConfig": {
+              "position.display": {
+                "binding": {
+                  "config": {
+                    "expression": "!{view.custom.userLoggedIn}"
+                  },
+                  "type": "expr"
+                }
+              }
+            },
+            "props": {
+              "direction": "column",
+              "justify": "center",
+              "style": {
+                "classes": "dark-container",
+                "margin": "3px",
+                "overflow": "hidden"
+              }
+            },
+            "type": "ia.container.flex"
+          }
+        ],
+        "meta": {
+          "name": "FlexContainer Login Main"
+        },
+        "position": {
+          "basis": "420px",
+          "shrink": 0
+        },
+        "propConfig": {
+          "position.display": {
+            "binding": {
+              "config": {
+                "expression": "!{view.custom.userLoggedIn}"
+              },
+              "type": "expr"
+            }
+          }
+        },
+        "props": {
+          "alignContent": "center",
+          "justify": "center",
+          "style": {
+            "height": "400px",
+            "overflow": "hidden"
+          }
+        },
+        "type": "ia.container.flex"
+      }
+    ],
+    "meta": {
+      "name": "root"
+    },
+    "props": {
+      "alignItems": "center",
+      "justify": "center",
+      "style": {
+        "backgroundColor": "#000000",
+        "overflow": "hidden"
+      }
+    },
+    "scripts": {
+      "customMethods": [
+        {
+          "name": "login",
+          "params": [],
+          "script": "\t# implement your method here\n\t\n\t# we set the error of logging in to the default value\n\t# before every time a user attempts to login\n\tself.view.custom.usernamePasswordError \u003d False\n\t\n\t\n\t\n\tusername \u003d self.view.custom.typedUsername\n\tpassword \u003d self.view.custom.typedPassword\n\t\n\tdataset \u003d system.db.runNamedQuery(\"Get User Password\", {\"username\":username})\n\tpyDataset \u003d system.dataset.toPyDataSet(dataset)\n\tif len(pyDataset) \u003e 0:\n\t\tif password \u003d\u003d pyDataset.getValueAt(0, \"password\"):\n\t\t\tself.view.custom.userId \u003d pyDataset.getValueAt(0, \"id\")\n\t\t\tself.view.custom.userLoggedIn \u003d True\n\t\telse:\n\t\t\tself.view.custom.usernamePasswordError \u003d True\n\telse:\n\t\tself.view.custom.usernamePasswordError \u003d True\n"
+        },
+        {
+          "name": "resetUserData",
+          "params": [],
+          "script": "\t# implement your method here\n\tself.view.custom.typedUsername \u003d \u0027\u0027\n\tself.view.custom.typedPassword \u003d \u0027\u0027\n\tself.view.custom.userId \u003d None"
+        }
+      ],
+      "extensionFunctions": null,
+      "messageHandlers": [
+        {
+          "messageType": "logoutUser",
+          "pageScope": true,
+          "script": "\t# implement your handler here\n\t\n\tself.view.custom.userLoggedIn \u003d False\n\tself.resetUserData()\n\t",
+          "sessionScope": false,
+          "viewScope": false
+        },
+        {
+          "messageType": "UserInChatListSelected",
+          "pageScope": true,
+          "script": "\t# implement your handler here\n\t#self.view.custom.selectedUserId \u003d payload[\"user_id\"]\n\tself.view.custom.currentView \u003d \"chatArea\"",
+          "sessionScope": false,
+          "viewScope": false
+        },
+        {
+          "messageType": "backToChatsListView",
+          "pageScope": true,
+          "script": "\t# implement your handler here\n\tself.view.custom.currentView \u003d \"chatsList\"",
+          "sessionScope": false,
+          "viewScope": false
+        }
+      ]
+    },
+    "type": "ia.container.flex"
+  }
+}

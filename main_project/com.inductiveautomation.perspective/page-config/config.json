@@ -1,0 +1,11 @@
+{
+  "pages": {
+    "/chatApp/main": {
+      "title": "",
+      "viewPath": "chatApp/Main"
+    }
+  },
+  "sharedDocks": {
+    "cornerPriority": "top-bottom"
+  }
+}

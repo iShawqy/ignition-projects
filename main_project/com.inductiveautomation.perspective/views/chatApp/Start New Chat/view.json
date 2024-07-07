@@ -1,0 +1,246 @@
+{
+  "custom": {},
+  "params": {
+    "userID": 72
+  },
+  "propConfig": {
+    "custom.contacts": {
+      "binding": {
+        "config": {
+          "enableValueCache": false,
+          "queryPath": "Get All Users",
+          "returnFormat": "json"
+        },
+        "type": "query"
+      },
+      "persistent": false
+    },
+    "custom.searchText": {
+      "binding": {
+        "config": {
+          "path": "/root/FlexContainer/Search/Search Contacts.props.text"
+        },
+        "type": "property"
+      },
+      "persistent": false
+    },
+    "params.userID": {
+      "paramDirection": "input",
+      "persistent": true
+    }
+  },
+  "props": {
+    "defaultSize": {
+      "height": 644,
+      "width": 346
+    }
+  },
+  "root": {
+    "children": [
+      {
+        "children": [
+          {
+            "meta": {
+              "name": "Label"
+            },
+            "position": {
+              "shrink": 0
+            },
+            "props": {
+              "style": {
+                "color": "#D5D5D5",
+                "fontFamily": "Arial",
+                "fontSize": "14px",
+                "fontWeight": "bold",
+                "margin": "5px",
+                "textAlign": "center"
+              },
+              "text": "New Chat"
+            },
+            "type": "ia.display.label"
+          },
+          {
+            "children": [
+              {
+                "meta": {
+                  "name": "Search Contacts"
+                },
+                "propConfig": {
+                  "props.text": {
+                    "binding": {
+                      "config": {
+                        "expression": "\u0027\u0027"
+                      },
+                      "type": "expr"
+                    }
+                  }
+                },
+                "props": {
+                  "deferUpdates": false,
+                  "placeholder": "Search contacts...",
+                  "rejectUpdatesWhileFocused": false,
+                  "style": {
+                    "backgroundColor": "#1E1E1E",
+                    "borderStyle": "none",
+                    "color": "#D5D5D5",
+                    "margin": "5px",
+                    "marginRight": "0px",
+                    "outlineStyle": "none",
+                    "width": "95%"
+                  }
+                },
+                "type": "ia.input.text-field"
+              },
+              {
+                "events": {
+                  "dom": {
+                    "onClick": {
+                      "config": {
+                        "script": "\tself.view.custom.searchText \u003d \u0027\u0027"
+                      },
+                      "scope": "G",
+                      "type": "script"
+                    }
+                  }
+                },
+                "meta": {
+                  "name": "Icon Clear"
+                },
+                "position": {
+                  "basis": "20px",
+                  "shrink": 0
+                },
+                "propConfig": {
+                  "meta.visible": {
+                    "binding": {
+                      "config": {
+                        "expression": "if(len({view.custom.searchText})\u003e0, true,false)"
+                      },
+                      "type": "expr"
+                    }
+                  }
+                },
+                "props": {
+                  "color": "#AAAAAA",
+                  "path": "material/clear",
+                  "style": {
+                    "cursor": "pointer",
+                    "margin": "5px",
+                    "marginLeft": "2px"
+                  }
+                },
+                "type": "ia.display.icon"
+              }
+            ],
+            "meta": {
+              "name": "Search"
+            },
+            "position": {
+              "basis": "30px",
+              "shrink": 0
+            },
+            "props": {
+              "alignItems": "center",
+              "justify": "center",
+              "style": {
+                "backgroundColor": "#1E1E1E",
+                "borderBottomLeftRadius": "10px",
+                "borderBottomRightRadius": "10px",
+                "borderColor": "#303030 ",
+                "borderStyle": "solid",
+                "borderTopLeftRadius": "10px",
+                "borderTopRightRadius": "10px",
+                "borderWidth": "1px",
+                "margin": "5px",
+                "overflow": "hidden"
+              }
+            },
+            "type": "ia.container.flex"
+          },
+          {
+            "meta": {
+              "name": "FlexRepeater Contacts"
+            },
+            "position": {
+              "grow": 1
+            },
+            "propConfig": {
+              "props.instances": {
+                "binding": {
+                  "config": {
+                    "struct": {
+                      "contacts": "{view.custom.contacts}",
+                      "searchText": "{view.custom.searchText}"
+                    },
+                    "waitOnAll": true
+                  },
+                  "transforms": [
+                    {
+                      "code": "\tfor key in value.keys():\n\t\tif value[key] is None:\n\t\t\treturn []\n\tsearchText \u003d value.searchText\n\tcontacts \u003d value.contacts\n\tinstances \u003d []\n\tappendedUsersIds \u003d []\n\tfor user in contacts:\n\t\t# this to exclude the chatter from appearing in the chatlist\n\t\tif user.id !\u003d self.view.params.userID:\n\t\t\tif len(searchText) \u003e 0:\n\t\t\t\tif searchText.lower() in user.first_name.lower() or searchText.lower() in user.last_name.lower():\n\t\t\t\t\tif user.id not in appendedUsersIds:\n\t\t\t\t\t\tinstances.append({\"user\": user,\"chatterId\":self.view.params.userID})\n\t\t\t\t\t\tappendedUsersIds.append(user.id)\n\t\t\telse:\n\t\t\t\tif user.id not in appendedUsersIds:\n\t\t\t\t\tinstances.append({\"user\": user,\"chatterId\":self.view.params.userID})\n\t\t\t\t\tappendedUsersIds.append(user.id)\n\treturn instances\n\t",
+                      "type": "script"
+                    }
+                  ],
+                  "type": "expr-struct"
+                }
+              }
+            },
+            "props": {
+              "direction": "column",
+              "path": "chatApp/Contact Card",
+              "style": {
+                "margin": "5px",
+                "scrollbarColor": "#303030 #1E1E1E"
+              },
+              "useDefaultViewWidth": false
+            },
+            "type": "ia.display.flex-repeater"
+          }
+        ],
+        "meta": {
+          "name": "FlexContainer"
+        },
+        "position": {
+          "grow": 1
+        },
+        "props": {
+          "direction": "column",
+          "style": {
+            "overflow": "hidden"
+          }
+        },
+        "type": "ia.container.flex"
+      }
+    ],
+    "meta": {
+      "name": "root"
+    },
+    "props": {
+      "direction": "column",
+      "style": {
+        "backgroundColor": "#1E1E1E",
+        "borderBottomLeftRadius": "10px",
+        "borderBottomRightRadius": "10px",
+        "borderStyle": "none",
+        "borderTopLeftRadius": "10px",
+        "borderTopRightRadius": "10px",
+        "outlineStyle": "none",
+        "overflow": "hidden",
+        "padding": "5px"
+      }
+    },
+    "scripts": {
+      "customMethods": [],
+      "extensionFunctions": null,
+      "messageHandlers": [
+        {
+          "messageType": "UserInStartNewChatSelected",
+          "pageScope": true,
+          "script": "\t# implement your handler here\n\tuserId \u003d payload[\"user_id\"]\n\tcreatedBy \u003d self.view.params.userID\n\tchat_recipient \u003d userId\n\t\n\t\n\t# first we need to make sure that there is no chat already created before between these users\n\tdataset \u003d system.db.runNamedQuery(\"Get Chat Id For Two Users\", {\"user1\":createdBy, \"user2\":chat_recipient})\n\tpyDataset \u003d system.dataset.toPyDataSet(dataset)\n\t\n\t# this means that they dont have a chat together yet, create one.\n\tif len(pyDataset) \u003d\u003d 0:\n\t\t# we create a new chat with a new id\n\t\tchatId \u003d system.db.runUpdateQuery(\"INSERT INTO chats (created_by) \" +\n\t\t\"VALUES (%d)\"%(createdBy),database\u003d\"db_chatApp\", getKey\u003d1)\n\t\t\n\t\t\n\t\t# we use that chatId to add the participants (the creator and the receiver)\n\t\tparticipants \u003d [createdBy, userId]\n\t\tfor p in participants:\n\t\t\tsystem.db.runUpdateQuery(\"INSERT INTO chat_participants (chat_id, user_id) \" +\n\t\t\t\"VALUES (%d, %d)\"%(chatId, p),database\u003d\"db_chatApp\", getKey\u003d1)\n\t\n\t\n\t# once a new chat is created, we send a message to select that user in the\n\t# chats list to fetch the messages\n\tsystem.perspective.sendMessage(\"UserInChatListSelected\", {\"user_id\":userId})\n\t# we send a message to update the chats list by fetching the user\u0027s chats list and participants\n\tsystem.perspective.sendMessage(\"updateChatsList\")\n\t\n\tsystem.perspective.closePopup(\"startNewChatPopupID\")",
+          "sessionScope": false,
+          "viewScope": false
+        }
+      ]
+    },
+    "type": "ia.container.flex"
+  }
+}

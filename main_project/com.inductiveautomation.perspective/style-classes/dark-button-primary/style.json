@@ -1,0 +1,52 @@
+{
+  "base": {
+    "style": {
+      "backgroundColor": "#0071e3",
+      "borderStyle": "none",
+      "borderTopLeftRadius": "10px",
+      "borderTopRightRadius": "10px",
+      "borderBottomLeftRadius": "10px",
+      "borderBottomRightRadius": "10px",
+      "color": "#fff",
+      "fontFamily": "Arial",
+      "margin": "5px",
+      "padding": "5px"
+    }
+  },
+  "variants": [
+    {
+      "pseudo": "active",
+      "animation": {
+        "duration": "0.1s",
+        "direction": "normal",
+        "iterationCount": "1",
+        "keyframes": {
+          "0%": {},
+          "100%": {
+            "backgroundColor": "#004494"
+          }
+        }
+      }
+    },
+    {
+      "pseudo": "hover",
+      "animation": {
+        "duration": "0.1s",
+        "direction": "normal",
+        "iterationCount": "1",
+        "keyframes": {
+          "0%": {},
+          "100%": {
+            "backgroundColor": "#005bb5"
+          }
+        }
+      }
+    },
+    {
+      "pseudo": "disabled",
+      "style": {
+        "backgroundColor": "#AAAAAA"
+      }
+    }
+  ]
+}

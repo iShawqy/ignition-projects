@@ -1,0 +1,9 @@
+{
+  "base": {
+    "style": {
+      "backgroundColor": "#2B2B2B",
+      "fontFamily": "monospace",
+      "padding": "5px"
+    }
+  }
+}

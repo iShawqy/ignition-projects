@@ -1,0 +1,385 @@
+{
+  "custom": {},
+  "params": {
+    "user": {
+      "active": false,
+      "first_name": "Jacob",
+      "gender": "male",
+      "id": 23,
+      "last_name": "Thompson",
+      "username": "jdoe1"
+    }
+  },
+  "propConfig": {
+    "custom.lastMessage": {
+      "binding": {
+        "config": {
+          "parameters": {
+            "recipient_user_id": "{view.params.chatterId}",
+            "user_id": "{view.params.user.id}"
+          },
+          "polling": {
+            "enabled": true,
+            "rate": "0.5"
+          },
+          "queryPath": "Get Last Message",
+          "returnFormat": "json"
+        },
+        "type": "query"
+      },
+      "persistent": false
+    },
+    "custom.lastMessageText": {
+      "binding": {
+        "config": {
+          "expression": "if(len({view.custom.lastMessage})\u003e0, {view.custom.lastMessage[0].text},\"\")"
+        },
+        "type": "expr"
+      },
+      "persistent": false
+    },
+    "custom.lastMessageTimestamp": {
+      "binding": {
+        "config": {
+          "expression": "if(len({view.custom.lastMessage})\u003e0, dateFormat(fromMillis({view.custom.lastMessage[0].timestamp}),\"HH:mm\"),\"\")"
+        },
+        "type": "expr"
+      },
+      "persistent": false
+    },
+    "custom.selected": {
+      "binding": {
+        "config": {
+          "expression": "false"
+        },
+        "type": "expr"
+      },
+      "persistent": false
+    },
+    "custom.unreadMessagesCounter": {
+      "binding": {
+        "config": {
+          "parameters": {
+            "recipient_user_id": "{view.params.chatterId}",
+            "user_id": "{view.params.user.id}"
+          },
+          "polling": {
+            "enabled": true,
+            "rate": "0.5"
+          },
+          "queryPath": "Get Unread Messages Counter For User Id",
+          "returnFormat": "scalar"
+        },
+        "type": "query"
+      },
+      "persistent": false
+    },
+    "custom.userTyping": {
+      "binding": {
+        "config": {
+          "parameters": {
+            "user_id": "{view.params.user.id}"
+          },
+          "polling": {
+            "enabled": true,
+            "rate": "1"
+          },
+          "queryPath": "Get User Typing",
+          "returnFormat": "scalar"
+        },
+        "type": "query"
+      },
+      "persistent": false
+    },
+    "params.user": {
+      "paramDirection": "input",
+      "persistent": true
+    }
+  },
+  "props": {
+    "defaultSize": {
+      "height": 64,
+      "width": 300
+    }
+  },
+  "root": {
+    "children": [
+      {
+        "children": [
+          {
+            "meta": {
+              "name": "Image"
+            },
+            "propConfig": {
+              "props.source": {
+                "binding": {
+                  "config": {
+                    "expression": "if({view.params.user.gender}\u003d\u0027male\u0027, \n\nif({view.params.user.username}\u003d\u0027ibra\u0027, \"/system/images/users_profile_photos/ibra.jpg\",\u0027/system/images/Builtin/icons/32/businessman2.png\u0027),\n\n\n if({view.params.user.username}\u003d\u0027denada\u0027,\"/system/images/users_profile_photos/denada.JPG\",\u0027/system/images/Builtin/icons/32/user3.png\u0027))\n\n"
+                  },
+                  "type": "expr"
+                }
+              }
+            },
+            "props": {
+              "fit": {
+                "height": 25,
+                "mode": "fill",
+                "width": 25
+              },
+              "style": {
+                "borderColor": "#D5D5D5",
+                "borderRadius": "50%",
+                "margin": "5px"
+              }
+            },
+            "type": "ia.display.image"
+          },
+          {
+            "children": [
+              {
+                "meta": {
+                  "name": "Label Username"
+                },
+                "propConfig": {
+                  "props.text": {
+                    "binding": {
+                      "config": {
+                        "expression": "{view.params.user.first_name} +\u0027 \u0027 + {view.params.user.last_name}"
+                      },
+                      "type": "expr"
+                    }
+                  }
+                },
+                "props": {
+                  "style": {
+                    "color": "#D5D5D5",
+                    "fontFamily": "Arial",
+                    "fontSize": "14px",
+                    "fontWeight": "bold"
+                  }
+                },
+                "type": "ia.display.label"
+              },
+              {
+                "meta": {
+                  "name": "Label Last Message Typing"
+                },
+                "position": {
+                  "display": false
+                },
+                "propConfig": {
+                  "props.style.fontStyle": {
+                    "binding": {
+                      "config": {
+                        "expression": "if({view.custom.userTyping} !\u003dnull \u0026\u0026 {view.custom.userTyping},\"italic\",\"normal\")"
+                      },
+                      "type": "expr"
+                    }
+                  },
+                  "props.text": {
+                    "binding": {
+                      "config": {
+                        "expression": "if({view.custom.userTyping} !\u003dnull \u0026\u0026 {view.custom.userTyping}, \"typing...\", {view.custom.lastMessageText})"
+                      },
+                      "type": "expr"
+                    }
+                  }
+                },
+                "props": {
+                  "style": {
+                    "color": "#AAAAAA",
+                    "fontFamily": "Arial",
+                    "fontSize": "12px",
+                    "overflow": "hidden",
+                    "textOverflow": "ellipsis",
+                    "whiteSpace": "nowrap"
+                  },
+                  "textStyle": {
+                    "overflow": "hidden",
+                    "textOverflow": "ellipsis",
+                    "whiteSpace": "nowrap"
+                  }
+                },
+                "type": "ia.display.label"
+              }
+            ],
+            "meta": {
+              "name": "FlexContainer Username LastMsg"
+            },
+            "position": {
+              "basis": "60%",
+              "grow": 1
+            },
+            "props": {
+              "direction": "column",
+              "justify": "center",
+              "style": {
+                "margin": "5px",
+                "overflow": "hidden"
+              }
+            },
+            "type": "ia.container.flex"
+          },
+          {
+            "children": [
+              {
+                "meta": {
+                  "name": "Label Timestamp"
+                },
+                "propConfig": {
+                  "props.style.color": {
+                    "binding": {
+                      "config": {
+                        "expression": "if({view.custom.unreadMessagesCounter}\u003e0, \"#00FF00\",\"#AAAAAA\")"
+                      },
+                      "type": "expr"
+                    }
+                  },
+                  "props.text": {
+                    "binding": {
+                      "config": {
+                        "path": "view.custom.lastMessageTimestamp"
+                      },
+                      "type": "property"
+                    }
+                  }
+                },
+                "props": {
+                  "style": {
+                    "fontFamily": "Arial",
+                    "fontSize": "12px",
+                    "margin": "3px"
+                  }
+                },
+                "type": "ia.display.label"
+              },
+              {
+                "meta": {
+                  "name": "Label Unread Messages Counter"
+                },
+                "position": {
+                  "basis": "20px",
+                  "shrink": 0
+                },
+                "propConfig": {
+                  "position.display": {
+                    "binding": {
+                      "config": {
+                        "expression": "if({view.custom.unreadMessagesCounter}\u003e0, true, false)"
+                      },
+                      "type": "expr"
+                    }
+                  },
+                  "props.text": {
+                    "binding": {
+                      "config": {
+                        "expression": "if({view.custom.unreadMessagesCounter}\u003e10, \u0027+10\u0027,{view.custom.unreadMessagesCounter})"
+                      },
+                      "type": "expr"
+                    }
+                  }
+                },
+                "props": {
+                  "style": {
+                    "backgroundColor": "#00FF00",
+                    "borderBottomLeftRadius": "50%",
+                    "borderBottomRightRadius": "50%",
+                    "borderTopLeftRadius": "50%",
+                    "borderTopRightRadius": "50%",
+                    "color": "#000000",
+                    "fontSize": "10px",
+                    "fontWeight": "bold",
+                    "margin": "3px",
+                    "textAlign": "center",
+                    "width": "20px"
+                  }
+                },
+                "type": "ia.display.label"
+              }
+            ],
+            "meta": {
+              "name": "FlexContainer Timestamp"
+            },
+            "position": {
+              "basis": "20%",
+              "display": false
+            },
+            "props": {
+              "alignItems": "center",
+              "direction": "column",
+              "justify": "center",
+              "style": {
+                "margin": "5px",
+                "overflow": "hidden"
+              }
+            },
+            "type": "ia.container.flex"
+          }
+        ],
+        "meta": {
+          "name": "FlexContainer"
+        },
+        "position": {
+          "basis": "100%"
+        },
+        "props": {
+          "style": {
+            "overflow": "hidden"
+          }
+        },
+        "type": "ia.container.flex"
+      }
+    ],
+    "events": {
+      "dom": {
+        "onClick": {
+          "config": {
+            "script": "\t\n\tsystem.perspective.sendMessage(\"UserInStartNewChatSelected\", {\"user_id\":self.view.params.user.id})\n\tself.view.custom.selected \u003d True\n\t"
+          },
+          "scope": "G",
+          "type": "script"
+        }
+      }
+    },
+    "meta": {
+      "name": "root"
+    },
+    "propConfig": {
+      "props.style.backgroundColor": {
+        "binding": {
+          "config": {
+            "expression": "if({view.custom.selected},\u0027#303030\u0027, \u0027\u0027)"
+          },
+          "type": "expr"
+        }
+      }
+    },
+    "props": {
+      "direction": "column",
+      "style": {
+        "borderBottomLeftRadius": "10px",
+        "borderBottomRightRadius": "10px",
+        "borderColor": "#D5D5D5",
+        "borderTopLeftRadius": "10px",
+        "borderTopRightRadius": "10px",
+        "cursor": "pointer",
+        "margin": "5px",
+        "overflow": "hidden"
+      }
+    },
+    "scripts": {
+      "customMethods": [],
+      "extensionFunctions": null,
+      "messageHandlers": [
+        {
+          "messageType": "refreshUserInChatSelection",
+          "pageScope": true,
+          "script": "\t# implement your handler here\n\tuserId \u003d payload[\"user_id\"]\n\tif userId !\u003d self.view.params.user.id:\n\t\tself.view.custom.selected \u003d False",
+          "sessionScope": false,
+          "viewScope": false
+        }
+      ]
+    },
+    "type": "ia.container.flex"
+  }
+}

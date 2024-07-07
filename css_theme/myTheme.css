@@ -1,0 +1,18 @@
+@import "./dark/index.css";
+
+.ia_popup {
+    background-color: 	#1E1E1E;
+    border: none;              /* Remove any border */
+    border-color: transparent; /* Ensure no border color is applied */
+    border-radius: 10px;       /* Apply a 10px border radius to all corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow for depth */
+    outline: none;  
+
+}
+
+
+.ia_componentTooltip {
+    background-color: #000000;
+    color: #D5D5D5;
+}
+

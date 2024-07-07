@@ -1,0 +1,1 @@
+UPDATE chats SET pinned = :pinned, pinned_on = NOW() where id = :chatId

@@ -1,0 +1,909 @@
+{
+  "custom": {},
+  "params": {
+    "mode": "mobile",
+    "userID": 72
+  },
+  "propConfig": {
+    "custom.chats": {
+      "binding": {
+        "config": {
+          "path": "view.params.userID"
+        },
+        "transforms": [
+          {
+            "code": "\tif value is None:\n\t\treturn []\n\tusers \u003d self.getChild(\"root\").getChats(returnUsers\u003dTrue)\n\t\n\treturn users",
+            "type": "script"
+          }
+        ],
+        "type": "property"
+      },
+      "persistent": false
+    },
+    "custom.searchText": {
+      "binding": {
+        "config": {
+          "bidirectional": true,
+          "path": "/root/FlexContainer/Search/Search Chats.props.text"
+        },
+        "type": "property"
+      },
+      "persistent": false
+    },
+    "custom.selectedUserId": {
+      "binding": {
+        "config": {
+          "expression": "0"
+        },
+        "type": "expr"
+      },
+      "persistent": false
+    },
+    "custom.showArchivedChats": {
+      "binding": {
+        "config": {
+          "expression": "0"
+        },
+        "type": "expr"
+      },
+      "persistent": false
+    },
+    "custom.updateChatsListTimer": {
+      "binding": {
+        "config": {
+          "expression": "now(500)"
+        },
+        "type": "expr"
+      },
+      "onChange": {
+        "enabled": null,
+        "script": "\tself.getChild(\"root\").getChats(returnUsers\u003dFalse)"
+      },
+      "persistent": false
+    },
+    "custom.userDetails": {
+      "binding": {
+        "config": {
+          "parameters": {
+            "id": "{view.params.userID}"
+          },
+          "queryPath": "Get User Details",
+          "returnFormat": "json"
+        },
+        "type": "query"
+      },
+      "persistent": false
+    },
+    "params.mode": {
+      "paramDirection": "input",
+      "persistent": true
+    },
+    "params.userID": {
+      "paramDirection": "input",
+      "persistent": true
+    }
+  },
+  "props": {
+    "defaultSize": {
+      "height": 679,
+      "width": 404
+    }
+  },
+  "root": {
+    "children": [
+      {
+        "children": [
+          {
+            "events": {
+              "dom": {
+                "onClick": {
+                  "config": {
+                    "script": "\tself.view.custom.showArchivedChats \u003d 0"
+                  },
+                  "scope": "G",
+                  "type": "script"
+                }
+              }
+            },
+            "meta": {
+              "name": "Icon Messages",
+              "tooltip": {
+                "delay": 100,
+                "enabled": true,
+                "location": "bottom-left",
+                "sustain": 5000,
+                "text": "Click to show non archived chats"
+              }
+            },
+            "position": {
+              "basis": "30px"
+            },
+            "propConfig": {
+              "props.color": {
+                "binding": {
+                  "config": {
+                    "expression": "if({view.custom.showArchivedChats}\u003d0,\"#D5D5D5\",\"#555555\")"
+                  },
+                  "type": "expr"
+                }
+              }
+            },
+            "props": {
+              "path": "material/message",
+              "style": {
+                "cursor": "pointer",
+                "margin": "5px"
+              }
+            },
+            "type": "ia.display.icon"
+          },
+          {
+            "events": {
+              "dom": {
+                "onClick": {
+                  "config": {
+                    "script": "\tself.view.custom.showArchivedChats \u003d 1"
+                  },
+                  "scope": "G",
+                  "type": "script"
+                }
+              }
+            },
+            "meta": {
+              "name": "Icon Archived",
+              "tooltip": {
+                "delay": 100,
+                "enabled": true,
+                "location": "bottom-left",
+                "sustain": 5000,
+                "text": "Click to show archived chats"
+              }
+            },
+            "position": {
+              "basis": "30px"
+            },
+            "propConfig": {
+              "props.color": {
+                "binding": {
+                  "config": {
+                    "expression": "if({view.custom.showArchivedChats}\u003d1,\"#D5D5D5\",\"#555555\")"
+                  },
+                  "type": "expr"
+                }
+              }
+            },
+            "props": {
+              "path": "material/bookmarks",
+              "style": {
+                "cursor": "pointer",
+                "margin": "5px"
+              }
+            },
+            "type": "ia.display.icon"
+          },
+          {
+            "events": {
+              "dom": {
+                "onClick": {
+                  "config": {
+                    "script": "\tsystem.perspective.sendMessage(\"logoutUser\")"
+                  },
+                  "enabled": false,
+                  "scope": "G",
+                  "type": "script"
+                }
+              }
+            },
+            "meta": {
+              "name": "Icon Call",
+              "tooltip": {
+                "enabled": true,
+                "location": "bottom-left",
+                "text": "Click to logout."
+              }
+            },
+            "position": {
+              "basis": "30px"
+            },
+            "props": {
+              "color": "#555555",
+              "path": "material/local_phone",
+              "style": {
+                "cursor": "pointer",
+                "margin": "5px"
+              }
+            },
+            "type": "ia.display.icon"
+          },
+          {
+            "events": {
+              "dom": {
+                "onClick": {
+                  "config": {
+                    "script": "\tsystem.perspective.sendMessage(\"logoutUser\")"
+                  },
+                  "enabled": false,
+                  "scope": "G",
+                  "type": "script"
+                }
+              }
+            },
+            "meta": {
+              "name": "Icon Favorite",
+              "tooltip": {
+                "enabled": true,
+                "location": "bottom-left",
+                "text": "Click to logout."
+              }
+            },
+            "position": {
+              "basis": "30px"
+            },
+            "props": {
+              "color": "#555555",
+              "path": "material/star_border",
+              "style": {
+                "cursor": "pointer",
+                "margin": "5px"
+              }
+            },
+            "type": "ia.display.icon"
+          },
+          {
+            "events": {
+              "dom": {
+                "onClick": {
+                  "config": {
+                    "script": "\tsystem.perspective.sendMessage(\"logoutUser\")"
+                  },
+                  "scope": "G",
+                  "type": "script"
+                }
+              }
+            },
+            "meta": {
+              "name": "Icon Logout",
+              "tooltip": {
+                "enabled": true,
+                "location": "bottom-left",
+                "text": "Click to logout."
+              }
+            },
+            "position": {
+              "basis": "30px"
+            },
+            "props": {
+              "color": "#555555",
+              "path": "material/login",
+              "style": {
+                "cursor": "pointer",
+                "margin": "5px"
+              }
+            },
+            "type": "ia.display.icon"
+          }
+        ],
+        "meta": {
+          "name": "FlexContainer NavigationBar Web"
+        },
+        "position": {
+          "basis": "40px",
+          "shrink": 0
+        },
+        "propConfig": {
+          "position.display": {
+            "binding": {
+              "config": {
+                "expression": "if({view.params.mode}\u003d\u0027web\u0027,true, false)"
+              },
+              "type": "expr"
+            }
+          }
+        },
+        "props": {
+          "direction": "column",
+          "style": {
+            "backgroundColor": "#2B2B2B",
+            "borderBottomLeftRadius": "5px",
+            "borderBottomRightRadius": "5px",
+            "borderTopLeftRadius": "5px",
+            "borderTopRightRadius": "5px",
+            "overflow": "hidden"
+          }
+        },
+        "type": "ia.container.flex"
+      },
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "meta": {
+                  "name": "Label"
+                },
+                "position": {
+                  "grow": 1,
+                  "shrink": 0
+                },
+                "propConfig": {
+                  "props.text": {
+                    "binding": {
+                      "config": {
+                        "expression": "if({view.custom.showArchivedChats}\u003d0,\u0027Chats\u0027,\u0027Archived\u0027)"
+                      },
+                      "type": "expr"
+                    }
+                  }
+                },
+                "props": {
+                  "style": {
+                    "classes": "dark-label",
+                    "color": "#D5D5D5",
+                    "fontWeight": "bold",
+                    "margin": "5px"
+                  }
+                },
+                "type": "ia.display.label"
+              },
+              {
+                "children": [
+                  {
+                    "events": {
+                      "dom": {
+                        "onClick": {
+                          "config": {
+                            "draggable": false,
+                            "id": "startNewChatPopupID",
+                            "modal": true,
+                            "overlayDismiss": true,
+                            "position": {
+                              "height": 600,
+                              "relativeLocation": "bottom",
+                              "width": 300
+                            },
+                            "positionType": "relative",
+                            "resizable": true,
+                            "showCloseIcon": false,
+                            "type": "open",
+                            "viewParams": {
+                              "userID": "{view.params.userID}"
+                            },
+                            "viewPath": "chatApp/Start New Chat",
+                            "viewportBound": true
+                          },
+                          "scope": "C",
+                          "type": "popup"
+                        }
+                      }
+                    },
+                    "meta": {
+                      "name": "New Chat",
+                      "tooltip": {
+                        "enabled": true,
+                        "location": "bottom-right",
+                        "text": "Start new chat"
+                      }
+                    },
+                    "position": {
+                      "basis": "25px",
+                      "shrink": 0
+                    },
+                    "propConfig": {
+                      "position.display": {
+                        "binding": {
+                          "config": {
+                            "expression": "if({view.custom.showArchivedChats}\u003d0, true, false)"
+                          },
+                          "type": "expr"
+                        }
+                      }
+                    },
+                    "props": {
+                      "color": "#D5D5D5",
+                      "path": "material/chat_bubble_outline",
+                      "style": {
+                        "cursor": "pointer",
+                        "margin": "5px"
+                      }
+                    },
+                    "type": "ia.display.icon"
+                  }
+                ],
+                "meta": {
+                  "name": "Buttons"
+                },
+                "position": {
+                  "grow": 1
+                },
+                "props": {
+                  "justify": "flex-end"
+                },
+                "type": "ia.container.flex"
+              },
+              {
+                "meta": {
+                  "name": "name"
+                },
+                "position": {
+                  "display": false,
+                  "shrink": 0
+                },
+                "propConfig": {
+                  "props.text": {
+                    "binding": {
+                      "config": {
+                        "expression": " {view.custom.userDetails[0].first_name} + \u0027 \u0027 + {view.custom.userDetails[0].last_name} "
+                      },
+                      "type": "expr"
+                    }
+                  }
+                },
+                "props": {
+                  "style": {
+                    "classes": "dark-label"
+                  }
+                },
+                "type": "ia.display.label"
+              }
+            ],
+            "meta": {
+              "name": "Header"
+            },
+            "position": {
+              "basis": "40px",
+              "shrink": 0
+            },
+            "props": {
+              "justify": "space-between",
+              "style": {
+                "margin": "5px",
+                "overflow": "hidden"
+              }
+            },
+            "type": "ia.container.flex"
+          },
+          {
+            "children": [
+              {
+                "meta": {
+                  "name": "Search Chats"
+                },
+                "propConfig": {
+                  "props.text": {
+                    "binding": {
+                      "config": {
+                        "expression": "\u0027\u0027"
+                      },
+                      "type": "expr"
+                    }
+                  }
+                },
+                "props": {
+                  "deferUpdates": false,
+                  "placeholder": "Search chats...",
+                  "rejectUpdatesWhileFocused": false,
+                  "style": {
+                    "backgroundColor": "#1E1E1E",
+                    "borderStyle": "none",
+                    "color": "#D5D5D5",
+                    "margin": "5px",
+                    "marginRight": "0px",
+                    "outlineStyle": "none",
+                    "width": "95%"
+                  }
+                },
+                "type": "ia.input.text-field"
+              },
+              {
+                "events": {
+                  "dom": {
+                    "onClick": {
+                      "config": {
+                        "script": "\tself.view.custom.searchText \u003d \u0027\u0027"
+                      },
+                      "scope": "G",
+                      "type": "script"
+                    }
+                  }
+                },
+                "meta": {
+                  "name": "Icon Clear"
+                },
+                "position": {
+                  "basis": "20px",
+                  "shrink": 0
+                },
+                "propConfig": {
+                  "meta.visible": {
+                    "binding": {
+                      "config": {
+                        "expression": "if(len({view.custom.searchText})\u003e0, true,false)"
+                      },
+                      "type": "expr"
+                    }
+                  }
+                },
+                "props": {
+                  "color": "#AAAAAA",
+                  "path": "material/clear",
+                  "style": {
+                    "cursor": "pointer",
+                    "margin": "5px",
+                    "marginLeft": "2px"
+                  }
+                },
+                "type": "ia.display.icon"
+              }
+            ],
+            "meta": {
+              "name": "Search"
+            },
+            "position": {
+              "basis": "30px",
+              "shrink": 0
+            },
+            "props": {
+              "alignItems": "center",
+              "justify": "center",
+              "style": {
+                "backgroundColor": "#1E1E1E",
+                "borderBottomLeftRadius": "10px",
+                "borderBottomRightRadius": "10px",
+                "borderColor": "#303030 ",
+                "borderStyle": "solid",
+                "borderTopLeftRadius": "10px",
+                "borderTopRightRadius": "10px",
+                "borderWidth": "1px",
+                "margin": "5px",
+                "overflow": "hidden"
+              }
+            },
+            "type": "ia.container.flex"
+          },
+          {
+            "meta": {
+              "name": "FlexRepeater Chats List"
+            },
+            "position": {
+              "grow": 1
+            },
+            "propConfig": {
+              "props.instances": {
+                "binding": {
+                  "config": {
+                    "struct": {
+                      "chats": "{view.custom.chats}",
+                      "searchText": "{view.custom.searchText}",
+                      "selectedUserId": "{view.custom.selectedUserId}",
+                      "userID": "{view.params.userID}"
+                    },
+                    "waitOnAll": true
+                  },
+                  "transforms": [
+                    {
+                      "code": "\tfor key in value.keys():\n\t\tif value[key] is None:\t\n\t\t\t\n\t\t\treturn []\n\t\n\tsearchText \u003d value.searchText\n\tchats \u003d value.chats\n\tuserID \u003d value.userID\n\tselectedUserId \u003d value.selectedUserId\n\tinstances \u003d []\n\n\tfor user in chats:\n\t\t# this to exclude the chatter from appearing in the chatlist\n\t\tif int(user[\"id\"]) !\u003d userID:\n\t\t\tif len(searchText) \u003e 0:\n\t\t\t\tif searchText.lower() in user.first_name.lower() or searchText.lower() in user.last_name.lower():\n\t\t\t\t\tinstances.append({\"user\": user,\"chatterId\":userID,\"selected\": True if selectedUserId \u003d\u003d user[\"id\"] else False})\n\t\n\t\t\telse:\n\t\t\t\tinstances.append({\"user\": user,\"chatterId\":userID,\"selected\": True if selectedUserId \u003d\u003d user[\"id\"] else False})\n\n\treturn instances\n\t",
+                      "type": "script"
+                    }
+                  ],
+                  "type": "expr-struct"
+                }
+              }
+            },
+            "props": {
+              "direction": "column",
+              "elementPosition": {
+                "basis": "60px",
+                "grow": 0,
+                "shrink": 0
+              },
+              "path": "chatApp/User In Chat List",
+              "style": {
+                "margin": "5px",
+                "scrollbarColor": "#303030 #1E1E1E"
+              },
+              "useDefaultViewHeight": false,
+              "useDefaultViewWidth": false
+            },
+            "type": "ia.display.flex-repeater"
+          }
+        ],
+        "meta": {
+          "name": "FlexContainer"
+        },
+        "position": {
+          "grow": 1
+        },
+        "props": {
+          "direction": "column",
+          "style": {
+            "backgroundColor": "#1E1E1E",
+            "borderBottomLeftRadius": "10px",
+            "borderBottomRightRadius": "10px",
+            "borderTopLeftRadius": "10px",
+            "borderTopRightRadius": "10px",
+            "overflow": "hidden"
+          }
+        },
+        "type": "ia.container.flex"
+      },
+      {
+        "children": [
+          {
+            "events": {
+              "dom": {
+                "onClick": {
+                  "config": {
+                    "script": "\tself.view.custom.showArchivedChats \u003d 0"
+                  },
+                  "scope": "G",
+                  "type": "script"
+                }
+              }
+            },
+            "meta": {
+              "name": "Icon Messages",
+              "tooltip": {
+                "delay": 100,
+                "enabled": true,
+                "location": "top-left",
+                "sustain": 5000,
+                "text": "Click to show non archived chats"
+              }
+            },
+            "position": {
+              "basis": "30px"
+            },
+            "propConfig": {
+              "props.color": {
+                "binding": {
+                  "config": {
+                    "expression": "if({view.custom.showArchivedChats}\u003d0,\"#D5D5D5\",\"#555555\")"
+                  },
+                  "type": "expr"
+                }
+              }
+            },
+            "props": {
+              "path": "material/message",
+              "style": {
+                "cursor": "pointer",
+                "margin": "5px"
+              }
+            },
+            "type": "ia.display.icon"
+          },
+          {
+            "events": {
+              "dom": {
+                "onClick": {
+                  "config": {
+                    "script": "\tself.view.custom.showArchivedChats \u003d 1"
+                  },
+                  "scope": "G",
+                  "type": "script"
+                }
+              }
+            },
+            "meta": {
+              "name": "Icon Archived",
+              "tooltip": {
+                "delay": 100,
+                "enabled": true,
+                "location": "top-left",
+                "sustain": 5000,
+                "text": "Click to show archived chats"
+              }
+            },
+            "position": {
+              "basis": "30px"
+            },
+            "propConfig": {
+              "props.color": {
+                "binding": {
+                  "config": {
+                    "expression": "if({view.custom.showArchivedChats}\u003d1,\"#D5D5D5\",\"#555555\")"
+                  },
+                  "type": "expr"
+                }
+              }
+            },
+            "props": {
+              "path": "material/bookmarks",
+              "style": {
+                "cursor": "pointer",
+                "margin": "5px"
+              }
+            },
+            "type": "ia.display.icon"
+          },
+          {
+            "events": {
+              "dom": {
+                "onClick": {
+                  "config": {
+                    "script": "\tsystem.perspective.sendMessage(\"logoutUser\")"
+                  },
+                  "enabled": false,
+                  "scope": "G",
+                  "type": "script"
+                }
+              }
+            },
+            "meta": {
+              "name": "Icon Call",
+              "tooltip": {
+                "enabled": true,
+                "location": "top",
+                "text": "Click to logout."
+              }
+            },
+            "position": {
+              "basis": "30px"
+            },
+            "props": {
+              "color": "#555555",
+              "path": "material/local_phone",
+              "style": {
+                "cursor": "pointer",
+                "margin": "5px"
+              }
+            },
+            "type": "ia.display.icon"
+          },
+          {
+            "events": {
+              "dom": {
+                "onClick": {
+                  "config": {
+                    "script": "\tsystem.perspective.sendMessage(\"logoutUser\")"
+                  },
+                  "enabled": false,
+                  "scope": "G",
+                  "type": "script"
+                }
+              }
+            },
+            "meta": {
+              "name": "Icon Favorite",
+              "tooltip": {
+                "enabled": true,
+                "location": "top-right",
+                "text": "Click to logout."
+              }
+            },
+            "position": {
+              "basis": "30px"
+            },
+            "props": {
+              "color": "#555555",
+              "path": "material/star_border",
+              "style": {
+                "cursor": "pointer",
+                "margin": "5px"
+              }
+            },
+            "type": "ia.display.icon"
+          },
+          {
+            "events": {
+              "dom": {
+                "onClick": {
+                  "config": {
+                    "script": "\tsystem.perspective.sendMessage(\"logoutUser\")"
+                  },
+                  "scope": "G",
+                  "type": "script"
+                }
+              }
+            },
+            "meta": {
+              "name": "Icon Logout",
+              "tooltip": {
+                "enabled": true,
+                "location": "top-right",
+                "text": "Click to logout."
+              }
+            },
+            "position": {
+              "basis": "30px"
+            },
+            "props": {
+              "color": "#555555",
+              "path": "material/login",
+              "style": {
+                "cursor": "pointer",
+                "margin": "5px"
+              }
+            },
+            "type": "ia.display.icon"
+          }
+        ],
+        "meta": {
+          "name": "FlexContainer NavigationBar Mobile"
+        },
+        "position": {
+          "basis": "40px",
+          "shrink": 0
+        },
+        "propConfig": {
+          "position.display": {
+            "binding": {
+              "config": {
+                "expression": "if({view.params.mode}\u003d\u0027mobile\u0027,true, false)"
+              },
+              "type": "expr"
+            }
+          }
+        },
+        "props": {
+          "alignItems": "center",
+          "justify": "space-between",
+          "style": {
+            "backgroundColor": "#2B2B2B",
+            "borderBottomLeftRadius": "5px",
+            "borderBottomRightRadius": "5px",
+            "borderTopLeftRadius": "5px",
+            "borderTopRightRadius": "5px",
+            "overflow": "hidden"
+          }
+        },
+        "type": "ia.container.flex"
+      }
+    ],
+    "meta": {
+      "name": "root"
+    },
+    "propConfig": {
+      "props.direction": {
+        "binding": {
+          "config": {
+            "expression": "if({view.params.mode}\u003d\u0027web\u0027,\"row\",\"column\")"
+          },
+          "type": "expr"
+        }
+      }
+    },
+    "props": {
+      "style": {
+        "backgroundColor": "#1E1E1E",
+        "overflow": "hidden"
+      }
+    },
+    "scripts": {
+      "customMethods": [
+        {
+          "name": "getChats",
+          "params": [
+            "returnUsers\u003dFalse"
+          ],
+          "script": "\t# implement your method here\n\t# implement your handler here\n\t# we get all the userIds that are participants in any chat that this user is part of\n\tdataset \u003d system.db.runNamedQuery(\"Get User Chats List\", {\"user_id\":self.view.params.userID,\"archived\":self.view.custom.showArchivedChats})\n\tpyDataset \u003d system.dataset.toPyDataSet(dataset)\n\tcolumnNames \u003d pyDataset.getColumnNames()\n\tusers \u003d []\n\tfor row in pyDataset:\n\t\tif row[\"id\"] !\u003d self.view.params.userID:\n\t\t\tuserObject \u003d {}\n\t\t\tfor col in columnNames:\t\n\t\t\t\tuserObject[col] \u003d row[col]\n\t\t\tusers.append(userObject)\n\t#self.view.custom.contacts \u003d users\n\t\n\n\tif not returnUsers:\n\t\tself.view.custom.chats \u003d users\n\t\n\t\n\treturn users"
+        }
+      ],
+      "extensionFunctions": null,
+      "messageHandlers": [
+        {
+          "messageType": "UserInChatListSelected",
+          "pageScope": true,
+          "script": "\t# implement your handler here\n\tself.view.custom.selectedUserId \u003d payload[\"user_id\"]\n\tsystem.perspective.sendMessage(\"refreshUserInChatSelection\", payload)",
+          "sessionScope": false,
+          "viewScope": false
+        },
+        {
+          "messageType": "logoutUser",
+          "pageScope": true,
+          "script": "\t# implement your handler here\n\tself.view.custom.searchText \u003d \u0027\u0027\n\tself.view.custom.selectedUserId \u003d 0\n\tself.view.custom.userDetails \u003d None\n",
+          "sessionScope": false,
+          "viewScope": false
+        },
+        {
+          "messageType": "updateChatsList",
+          "pageScope": true,
+          "script": "\t# implement your handler here\n\t# we get all the userIds that are participants in any chat that this user is part of\n\tself.getChats()\n\t\n\t#self.view.custom.contacts \u003d users\n",
+          "sessionScope": false,
+          "viewScope": false
+        }
+      ]
+    },
+    "type": "ia.container.flex"
+  }
+}

@@ -1,0 +1,233 @@
+{
+  "custom": {},
+  "params": {
+    "chatterId": 72,
+    "user": {
+      "chat_id": 64,
+      "first_name": "John",
+      "gender": "male",
+      "id": 23,
+      "last_name": "Doe",
+      "pinned": 0,
+      "username": "jdoe1"
+    }
+  },
+  "propConfig": {
+    "custom.chatArchivedByChatter": {
+      "binding": {
+        "config": {
+          "parameters": {
+            "archived_by": "{view.params.chatterId}",
+            "chatId": "{view.params.user.chat_id}"
+          },
+          "queryPath": "Check If User Archived Chat",
+          "returnFormat": "scalar"
+        },
+        "type": "query"
+      },
+      "persistent": false
+    },
+    "params.chatterId": {
+      "paramDirection": "input",
+      "persistent": true
+    },
+    "params.user": {
+      "paramDirection": "input",
+      "persistent": true
+    }
+  },
+  "props": {
+    "defaultSize": {
+      "height": 105,
+      "width": 129
+    }
+  },
+  "root": {
+    "children": [
+      {
+        "children": [
+          {
+            "events": {
+              "dom": {
+                "onClick": {
+                  "config": {
+                    "script": "\tsystem.db.runNamedQuery(\"Pin Chat\", {\"pinned\": 1 if self.view.params.user.pinned \u003d\u003d 0 else 0, \"chatId\":self.view.params.user.chat_id})\n\tsystem.perspective.closePopup(\"ContextMenuUserInChatsList\")"
+                  },
+                  "scope": "G",
+                  "type": "script"
+                }
+              }
+            },
+            "meta": {
+              "name": "Label Pin Unpin Chat"
+            },
+            "position": {
+              "shrink": 0
+            },
+            "propConfig": {
+              "props.text": {
+                "binding": {
+                  "config": {
+                    "expression": "if({view.params.user.pinned} \u003d 1, \"Unpin chat\",\"Pin chat\")"
+                  },
+                  "type": "expr"
+                }
+              }
+            },
+            "props": {
+              "style": {
+                "borderBottomLeftRadius": "5px",
+                "borderBottomRightRadius": "5px",
+                "borderTopLeftRadius": "5px",
+                "borderTopRightRadius": "5px",
+                "classes": "highlight-on-hover",
+                "color": "#D5D5D5",
+                "cursor": "pointer",
+                "fontFamily": "Arial",
+                "fontSize": "12px",
+                "margin": "2px",
+                "padding": "3px"
+              }
+            },
+            "type": "ia.display.label"
+          },
+          {
+            "events": {
+              "dom": {
+                "onClick": {
+                  "config": {
+                    "script": "\tif self.view.custom.chatArchivedByChatter is not None:\n\t\tsystem.db.runNamedQuery(\"Archive Chat\",{\"chatId\":int(self.view.params.user.chat_id),\n\t\t\"archived\":0,\"archived_by\":None})\n\telse:\n\t\tsystem.db.runNamedQuery(\"Archive Chat\",{\"chatId\":int(self.view.params.user.chat_id),\n\t\t\t\t\"archived\":int(1),\"archived_by\":int(self.view.params.chatterId)})\n\tsystem.perspective.closePopup(\"ContextMenuUserInChatsList\")"
+                  },
+                  "scope": "G",
+                  "type": "script"
+                }
+              }
+            },
+            "meta": {
+              "name": "Label Archive"
+            },
+            "position": {
+              "shrink": 0
+            },
+            "propConfig": {
+              "props.text": {
+                "binding": {
+                  "config": {
+                    "expression": "if({view.custom.chatArchivedByChatter} \u003d 1, \"Unarchive chat\", \"Archive chat\")"
+                  },
+                  "type": "expr"
+                }
+              }
+            },
+            "props": {
+              "style": {
+                "borderBottomLeftRadius": "5px",
+                "borderBottomRightRadius": "5px",
+                "borderTopLeftRadius": "5px",
+                "borderTopRightRadius": "5px",
+                "classes": "highlight-on-hover",
+                "color": "#D5D5D5",
+                "cursor": "pointer",
+                "fontFamily": "Arial",
+                "fontSize": "12px",
+                "margin": "2px",
+                "padding": "3px"
+              }
+            },
+            "type": "ia.display.label"
+          },
+          {
+            "events": {
+              "dom": {
+                "onClick": {
+                  "config": {
+                    "script": "\tsystem.db.runNamedQuery(\"Mark Chat Messages As Read\",{\"user_id\":self.view.params.user.id,\"recipient_user_id\":self.view.params.chatterId,\"status\":\"read\"})\n\tsystem.perspective.closePopup(\"ContextMenuUserInChatsList\")"
+                  },
+                  "scope": "G",
+                  "type": "script"
+                }
+              }
+            },
+            "meta": {
+              "name": "Label Mark Read"
+            },
+            "position": {
+              "shrink": 0
+            },
+            "props": {
+              "style": {
+                "borderBottomLeftRadius": "5px",
+                "borderBottomRightRadius": "5px",
+                "borderTopLeftRadius": "5px",
+                "borderTopRightRadius": "5px",
+                "classes": "highlight-on-hover",
+                "color": "#D5D5D5",
+                "cursor": "pointer",
+                "fontFamily": "Arial",
+                "fontSize": "12px",
+                "margin": "2px",
+                "padding": "3px"
+              },
+              "text": "Mark as read"
+            },
+            "type": "ia.display.label"
+          },
+          {
+            "events": {
+              "dom": {
+                "onClick": {
+                  "config": {
+                    "script": "\tsystem.db.runNamedQuery(\"Mark Chat Messages As Read\",{\"user_id\":self.view.params.user.id,\"recipient_user_id\":self.view.params.chatterId,\"status\":\"delivered\"})\n\tsystem.perspective.closePopup(\"ContextMenuUserInChatsList\")"
+                  },
+                  "scope": "G",
+                  "type": "script"
+                }
+              }
+            },
+            "meta": {
+              "name": "Label Mark Unread"
+            },
+            "position": {
+              "shrink": 0
+            },
+            "props": {
+              "style": {
+                "borderBottomLeftRadius": "5px",
+                "borderBottomRightRadius": "5px",
+                "borderTopLeftRadius": "5px",
+                "borderTopRightRadius": "5px",
+                "classes": "highlight-on-hover",
+                "color": "#D5D5D5",
+                "cursor": "pointer",
+                "fontFamily": "Arial",
+                "fontSize": "12px",
+                "margin": "2px",
+                "padding": "3px"
+              },
+              "text": "Mark as unread"
+            },
+            "type": "ia.display.label"
+          }
+        ],
+        "meta": {
+          "name": "FlexContainer Options"
+        },
+        "props": {
+          "direction": "column",
+          "style": {
+            "margin": "5px",
+            "overflow": "hidden"
+          }
+        },
+        "type": "ia.container.flex"
+      }
+    ],
+    "meta": {
+      "name": "root"
+    },
+    "props": {
+      "direction": "column"
+    },
+    "type": "ia.container.flex"
+  }
+}

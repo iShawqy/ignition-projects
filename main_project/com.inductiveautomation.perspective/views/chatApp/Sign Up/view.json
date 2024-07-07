@@ -1,0 +1,577 @@
+{
+  "custom": {},
+  "params": {},
+  "propConfig": {
+    "custom.email": {
+      "binding": {
+        "config": {
+          "bidirectional": true,
+          "path": "/root/FlexContainer Form/TextField Email.props.text"
+        },
+        "type": "property"
+      },
+      "persistent": false
+    },
+    "custom.firstname": {
+      "binding": {
+        "config": {
+          "bidirectional": true,
+          "path": "/root/FlexContainer Form/TextField First Name.props.text"
+        },
+        "type": "property"
+      },
+      "persistent": false
+    },
+    "custom.formData": {
+      "binding": {
+        "config": {
+          "struct": {
+            "email": "{view.custom.email}",
+            "firstname": "{view.custom.firstname}",
+            "gender": "{view.custom.gender}",
+            "lastname": "{view.custom.lastname}",
+            "password": "{view.custom.password}",
+            "username": "{view.custom.username}"
+          },
+          "waitOnAll": true
+        },
+        "transforms": [
+          {
+            "code": "\tfor key in value.keys():\n\t\n\t\tif len(value[key]) \u003d\u003d 0:\n\t\t\tself.custom.formReady \u003d False\n\t\t\treturn value\n\t\n\t\n\tself.custom.formReady \u003d True\n\treturn value",
+            "type": "script"
+          }
+        ],
+        "type": "expr-struct"
+      },
+      "persistent": false
+    },
+    "custom.formReady": {
+      "binding": {
+        "config": {
+          "expression": "false"
+        },
+        "type": "expr"
+      },
+      "persistent": false
+    },
+    "custom.gender": {
+      "binding": {
+        "config": {
+          "bidirectional": true,
+          "path": "/root/FlexContainer Form/Dropdown Gender.props.value"
+        },
+        "type": "property"
+      },
+      "persistent": false
+    },
+    "custom.lastname": {
+      "binding": {
+        "config": {
+          "bidirectional": true,
+          "path": "/root/FlexContainer Form/TextField Last Name.props.text"
+        },
+        "type": "property"
+      },
+      "persistent": false
+    },
+    "custom.password": {
+      "binding": {
+        "config": {
+          "bidirectional": true,
+          "path": "/root/FlexContainer Form/PasswordField.props.text"
+        },
+        "type": "property"
+      },
+      "persistent": false
+    },
+    "custom.showError": {
+      "binding": {
+        "config": {
+          "expression": "false"
+        },
+        "type": "expr"
+      },
+      "persistent": false
+    },
+    "custom.signingUp": {
+      "binding": {
+        "config": {
+          "expression": "false"
+        },
+        "type": "expr"
+      },
+      "persistent": false
+    },
+    "custom.userSignedUp": {
+      "binding": {
+        "config": {
+          "expression": "false"
+        },
+        "type": "expr"
+      },
+      "persistent": false
+    },
+    "custom.username": {
+      "binding": {
+        "config": {
+          "bidirectional": true,
+          "path": "/root/FlexContainer Form/TextField Username.props.text"
+        },
+        "type": "property"
+      },
+      "persistent": false
+    },
+    "custom.usernameExists": {
+      "binding": {
+        "config": {
+          "parameters": {
+            "email": "{view.custom.email}",
+            "username": "{view.custom.username}"
+          },
+          "queryPath": "Check If Username Exist",
+          "returnFormat": "scalar"
+        },
+        "type": "query"
+      },
+      "persistent": false
+    }
+  },
+  "props": {
+    "defaultSize": {
+      "height": 429,
+      "width": 326
+    }
+  },
+  "root": {
+    "children": [
+      {
+        "children": [
+          {
+            "meta": {
+              "name": "Label"
+            },
+            "props": {
+              "style": {
+                "color": "#D5D5D5",
+                "fontFamily": "Arial",
+                "fontSize": "18px",
+                "fontWeight": "bold",
+                "margin": "5px",
+                "textAlign": "center"
+              },
+              "text": "SIGN UP"
+            },
+            "type": "ia.display.label"
+          },
+          {
+            "meta": {
+              "name": "TextField First Name"
+            },
+            "position": {
+              "basis": "30px",
+              "shrink": 0
+            },
+            "propConfig": {
+              "props.text": {
+                "binding": {
+                  "config": {
+                    "expression": "\u0027\u0027"
+                  },
+                  "type": "expr"
+                }
+              }
+            },
+            "props": {
+              "deferUpdates": false,
+              "placeholder": "First name...",
+              "rejectUpdatesWhileFocused": false,
+              "style": {
+                "backgroundColor": "#2B2B2B",
+                "borderBottomLeftRadius": "10px",
+                "borderBottomRightRadius": "10px",
+                "borderTopLeftRadius": "10px",
+                "borderTopRightRadius": "10px",
+                "color": "#D5D5D5",
+                "margin": "5px"
+              }
+            },
+            "type": "ia.input.text-field"
+          },
+          {
+            "meta": {
+              "name": "TextField Last Name"
+            },
+            "position": {
+              "basis": "32px"
+            },
+            "propConfig": {
+              "props.text": {
+                "binding": {
+                  "config": {
+                    "expression": "\u0027\u0027"
+                  },
+                  "type": "expr"
+                }
+              }
+            },
+            "props": {
+              "deferUpdates": false,
+              "placeholder": "Last name...",
+              "rejectUpdatesWhileFocused": false,
+              "style": {
+                "backgroundColor": "#2B2B2B",
+                "borderBottomLeftRadius": "10px",
+                "borderBottomRightRadius": "10px",
+                "borderTopLeftRadius": "10px",
+                "borderTopRightRadius": "10px",
+                "color": "#D5D5D5",
+                "margin": "5px"
+              }
+            },
+            "type": "ia.input.text-field"
+          },
+          {
+            "meta": {
+              "name": "TextField Email"
+            },
+            "position": {
+              "basis": "30px",
+              "shrink": 0
+            },
+            "propConfig": {
+              "props.text": {
+                "binding": {
+                  "config": {
+                    "expression": "\u0027\u0027"
+                  },
+                  "type": "expr"
+                }
+              }
+            },
+            "props": {
+              "deferUpdates": false,
+              "placeholder": "Email...",
+              "rejectUpdatesWhileFocused": false,
+              "style": {
+                "backgroundColor": "#2B2B2B",
+                "borderBottomLeftRadius": "10px",
+                "borderBottomRightRadius": "10px",
+                "borderTopLeftRadius": "10px",
+                "borderTopRightRadius": "10px",
+                "color": "#D5D5D5",
+                "margin": "5px"
+              }
+            },
+            "type": "ia.input.text-field"
+          },
+          {
+            "meta": {
+              "name": "TextField Username"
+            },
+            "position": {
+              "basis": "30px",
+              "shrink": 0
+            },
+            "propConfig": {
+              "props.text": {
+                "binding": {
+                  "config": {
+                    "expression": "\u0027\u0027"
+                  },
+                  "type": "expr"
+                }
+              }
+            },
+            "props": {
+              "deferUpdates": false,
+              "placeholder": "Username...",
+              "rejectUpdatesWhileFocused": false,
+              "style": {
+                "backgroundColor": "#2B2B2B",
+                "borderBottomLeftRadius": "10px",
+                "borderBottomRightRadius": "10px",
+                "borderTopLeftRadius": "10px",
+                "borderTopRightRadius": "10px",
+                "color": "#D5D5D5",
+                "margin": "5px"
+              }
+            },
+            "type": "ia.input.text-field"
+          },
+          {
+            "meta": {
+              "name": "PasswordField"
+            },
+            "position": {
+              "basis": "30px",
+              "shrink": 0
+            },
+            "propConfig": {
+              "props.text": {
+                "binding": {
+                  "config": {
+                    "expression": "\u0027\u0027"
+                  },
+                  "type": "expr"
+                }
+              }
+            },
+            "props": {
+              "placeholder": "Password...",
+              "style": {
+                "backgroundColor": "#2B2B2B",
+                "borderBottomLeftRadius": "10px",
+                "borderBottomRightRadius": "10px",
+                "borderTopLeftRadius": "10px",
+                "borderTopRightRadius": "10px",
+                "color": "#D5D5D5",
+                "marginLeft": "5px",
+                "marginRight": "5px",
+                "marginTop": "10px"
+              }
+            },
+            "type": "ia.input.password-field"
+          },
+          {
+            "meta": {
+              "name": "Dropdown Gender"
+            },
+            "position": {
+              "basis": "30px",
+              "shrink": 0
+            },
+            "propConfig": {
+              "props.value": {
+                "binding": {
+                  "config": {
+                    "expression": "\u0027\u0027"
+                  },
+                  "type": "expr"
+                }
+              }
+            },
+            "props": {
+              "options": [
+                {
+                  "label": "Male",
+                  "value": "male"
+                },
+                {
+                  "label": "Female",
+                  "value": "female"
+                }
+              ],
+              "placeholder": {
+                "text": "Gender..."
+              },
+              "style": {
+                "backgroundColor": "#2B2B2B",
+                "borderBottomLeftRadius": "10px",
+                "borderBottomRightRadius": "10px",
+                "borderTopLeftRadius": "10px",
+                "borderTopRightRadius": "10px",
+                "color": "#D5D5D5",
+                "marginLeft": "5px",
+                "marginRight": "5px",
+                "marginTop": "15px"
+              }
+            },
+            "type": "ia.input.dropdown"
+          },
+          {
+            "children": [
+              {
+                "events": {
+                  "component": {
+                    "onActionPerformed": {
+                      "config": {
+                        "script": "\tself.view.getChild(\"root\").signup(self.view.custom.formData)"
+                      },
+                      "scope": "G",
+                      "type": "script"
+                    }
+                  }
+                },
+                "meta": {
+                  "name": "Button Signup",
+                  "tooltip": {
+                    "location": "bottom",
+                    "text": "Please fill in all the information to sign up."
+                  }
+                },
+                "position": {
+                  "shrink": 0
+                },
+                "propConfig": {
+                  "meta.tooltip.enabled": {
+                    "binding": {
+                      "config": {
+                        "expression": "!{view.custom.formReady}"
+                      },
+                      "type": "expr"
+                    }
+                  },
+                  "props.enabled": {
+                    "binding": {
+                      "config": {
+                        "path": "view.custom.formReady"
+                      },
+                      "type": "property"
+                    }
+                  }
+                },
+                "props": {
+                  "style": {
+                    "backgroundColor": "#0071e3",
+                    "borderBottomLeftRadius": "10px",
+                    "borderBottomRightRadius": "10px",
+                    "borderStyle": "none",
+                    "borderTopLeftRadius": "10px",
+                    "borderTopRightRadius": "10px",
+                    "fontFamily": "Arial",
+                    "margin": 5,
+                    "width": "80px"
+                  },
+                  "text": "SIGN UP"
+                },
+                "type": "ia.input.button"
+              }
+            ],
+            "meta": {
+              "name": "FlexContainer"
+            },
+            "position": {
+              "shrink": 0
+            },
+            "props": {
+              "alignItems": "center",
+              "justify": "center",
+              "style": {
+                "margin": "5px",
+                "overflow": "hidden"
+              }
+            },
+            "type": "ia.container.flex"
+          },
+          {
+            "meta": {
+              "name": "Label Sign in",
+              "tooltip": {
+                "enabled": true,
+                "location": "bottom",
+                "text": "Go to the login page"
+              }
+            },
+            "position": {
+              "basis": "32px"
+            },
+            "props": {
+              "style": {
+                "color": "#0077E3",
+                "cursor": "pointer",
+                "fontFamily": "Arial",
+                "fontSize": "14px",
+                "textAlign": "center",
+                "textDecoration": "underline"
+              },
+              "text": "LOG IN"
+            },
+            "type": "ia.display.label"
+          },
+          {
+            "meta": {
+              "name": "Label Error"
+            },
+            "propConfig": {
+              "position.display": {
+                "binding": {
+                  "config": {
+                    "path": "view.custom.showError"
+                  },
+                  "type": "property"
+                }
+              }
+            },
+            "props": {
+              "style": {
+                "color": "#FF0000",
+                "fontFamily": "Arial",
+                "fontSize": "14px",
+                "textAlign": "center"
+              },
+              "text": "Username or email exists!"
+            },
+            "type": "ia.display.label"
+          },
+          {
+            "meta": {
+              "name": "Label Success"
+            },
+            "propConfig": {
+              "meta.visible": {
+                "binding": {
+                  "config": {
+                    "expression": "if(!{view.custom.formReady} \u0026\u0026 {view.custom.userSignedUp},true, false)"
+                  },
+                  "type": "expr"
+                }
+              }
+            },
+            "props": {
+              "style": {
+                "color": "#00D900",
+                "fontFamily": "Arial",
+                "fontSize": "14px",
+                "textAlign": "center"
+              },
+              "text": "User created successfully!"
+            },
+            "type": "ia.display.label"
+          }
+        ],
+        "meta": {
+          "name": "FlexContainer Form"
+        },
+        "position": {
+          "basis": "100%"
+        },
+        "props": {
+          "direction": "column",
+          "style": {
+            "padding": "5px"
+          }
+        },
+        "type": "ia.container.flex"
+      }
+    ],
+    "meta": {
+      "name": "root"
+    },
+    "props": {
+      "direction": "column",
+      "style": {
+        "classes": "dark-container",
+        "overflow": "hidden"
+      }
+    },
+    "scripts": {
+      "customMethods": [
+        {
+          "name": "signup",
+          "params": [
+            "params"
+          ],
+          "script": "\t# implement your method here\n\tself.view.custom.showError \u003d False\n\tif self.view.custom.usernameExists \u003e 0:\n\t\tself.view.custom.showError \u003d True\n\t\treturn \n\t\n\tself.view.custom.userSignedUp \u003d False\n\t\n\tself.view.custom.signingUp \u003d True\n\t# we add the user to the users table\n\tuserId \u003d system.db.runUpdateQuery(\"INSERT INTO users (username, email, password, first_name, last_name, active, gender) \" \n\t+ \"VALUES (\u0027%s\u0027, \u0027%s\u0027,\u0027%s\u0027, \u0027%s\u0027,\u0027%s\u0027, %d, \u0027%s\u0027)\"%(params.username,params.email, params.password, \n\tparams.firstname, params.lastname, 1, params.gender),database\u003d\"db_chatApp\", getKey\u003d1)\n\t\n\t\n\tsystem.perspective.print(\"User signed up with id: \" + str(userId))\n\t\n\t\n\t# we add the user to the users_status table\n\tsystem.db.runUpdateQuery(\"INSERT INTO users_status (user_id, status, typing) \" \n\t\t+ \"VALUES (%d, \u0027%s\u0027,%d)\"%(userId,\"offline\", 0),database\u003d\"db_chatApp\", getKey\u003d1)\n\t\n\tsystem.perspective.print(\"added user to the users status table\")\n\t\n\t\n\tself.view.custom.userSignedUp \u003d True\n\tself.clearForm()\n\tself.view.custom.signingUp \u003d False"
+        },
+        {
+          "name": "clearForm",
+          "params": [],
+          "script": "\t# implement your method here\n\tself.view.custom.password \u003d \u0027\u0027\n\tself.view.custom.firstname \u003d \u0027\u0027\n\tself.view.custom.lastname \u003d \u0027\u0027\n\tself.view.custom.username \u003d \u0027\u0027\n\tself.view.custom.gender \u003d \u0027\u0027\n\tself.view.custom.email \u003d \u0027\u0027\n\t"
+        }
+      ],
+      "extensionFunctions": null,
+      "messageHandlers": []
+    },
+    "type": "ia.container.flex"
+  }
+}

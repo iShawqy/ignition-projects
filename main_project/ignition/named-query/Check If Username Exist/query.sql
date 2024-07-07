@@ -1,0 +1,1 @@
+SELECT count(distinct(id)) from users where username = :username or email = :email

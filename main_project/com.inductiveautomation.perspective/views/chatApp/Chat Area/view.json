@@ -1,0 +1,618 @@
+{
+  "custom": {},
+  "params": {
+    "chaterId": 23,
+    "mode": "web"
+  },
+  "propConfig": {
+    "custom.chatId": {
+      "binding": {
+        "config": {
+          "expression": "null"
+        },
+        "type": "expr"
+      },
+      "persistent": false
+    },
+    "custom.chatMessages": {
+      "binding": {
+        "config": {
+          "enableValueCache": false,
+          "parameters": {
+            "recipient_user_id": "{view.custom.chatteeId}",
+            "user_id": "{view.params.chaterId}"
+          },
+          "polling": {
+            "enabled": true,
+            "rate": "0.5"
+          },
+          "queryPath": "Get Chat Messages",
+          "returnFormat": "json"
+        },
+        "transforms": [
+          {
+            "code": "\tmessages \u003d []\n\t\n\t# we check whether the message was from the chatter or the chattee \n\t# so we can position the message container to the right or left\n\t# also, once we receive those messages, which means that the user have read them,\n\t# we need to update the message status in the messages table to read which later\n\t# we can use to color the double checkmarks to blue like in whatsApp :)\n\tchaterId \u003d self.params.chaterId \n\tfor msg in value:\n\t\tmsgObject \u003d {}\n\t\tif msg[\"chatterId\"] \u003d\u003d chaterId:\n\t\t\tmsgSource \u003d \"chatter\"\n\t\telse:\n\t\t\tmsgSource \u003d \"chattee\"\n\t\tmsgObject[\"msgSource\"] \u003d msgSource\n\t\t\n\t\t\n\t\tfor key in msg.keys():\n\t\t\tmsgObject[key] \u003d msg[key]\n\t\tmessages.append({\"message\":msgObject})\n\t\t\n\t\t# here we set the message status to read\n\t\tif msgSource \u003d\u003d \"chattee\":\n\t\t\tmsg_id \u003d msg[\"id\"]\n\t\t\tsystem.db.runNamedQuery(\"Set Message Status\",{\"id\":msg_id,\"status\":\"read\"})\n\treturn messages",
+            "type": "script"
+          }
+        ],
+        "type": "query"
+      },
+      "persistent": false
+    },
+    "custom.chatteeDetails": {
+      "binding": {
+        "config": {
+          "designerUseLimit": false,
+          "enableValueCache": false,
+          "parameters": {
+            "id": "{view.custom.chatteeId}"
+          },
+          "queryPath": "Get User Details",
+          "returnFormat": "json"
+        },
+        "type": "query"
+      },
+      "persistent": false
+    },
+    "custom.chatteeId": {
+      "binding": {
+        "config": {
+          "expression": "null"
+        },
+        "type": "expr"
+      },
+      "persistent": false
+    },
+    "custom.messageText": {
+      "binding": {
+        "config": {
+          "bidirectional": true,
+          "path": "/root/FlexContainer Main/FlexContainer Chat Selected/FlexContainer Create Message/TextArea Message Text.props.text"
+        },
+        "type": "property"
+      },
+      "persistent": false
+    },
+    "custom.prevTextValue": {
+      "binding": {
+        "config": {
+          "expression": "null"
+        },
+        "type": "expr"
+      },
+      "persistent": false
+    },
+    "custom.typing": {
+      "binding": {
+        "config": {
+          "expression": "null"
+        },
+        "type": "expr"
+      },
+      "onChange": {
+        "enabled": null,
+        "script": "\tif currentValue is not None:\n\t\tif currentValue.value is not None:\n\t\t\n\t\t\tsystem.db.runNamedQuery(\"Set User Typing\",{\"user_id\":self.params.chaterId, \"typing\":currentValue.value, \"chat_id\":self.view.custom.chatId})\n\t\t\t#currentValue.value"
+      },
+      "persistent": false
+    },
+    "custom.updateTypingTimer": {
+      "binding": {
+        "config": {
+          "expression": "now(1000)"
+        },
+        "type": "expr"
+      },
+      "onChange": {
+        "enabled": null,
+        "script": "\tcurrentTextValue \u003d self.custom.messageText\n\tprevTextValue \u003d self.custom.prevTextValue\n\t\n\tif prevTextValue is None:\n\t\tif len(currentTextValue) \u003e 0:\n\t\t\tself.custom.typing \u003d 1\n\t\telse:\n\t\t\tself.custom.typing \u003d 0\n\t\n\t\n\telse:\n\t\tif len(currentTextValue) !\u003d len(prevTextValue):\n\t\t\tself.custom.typing \u003d 1\n\t\telse:\n\t\t\tself.custom.typing \u003d 0\n\t\n\tself.custom.prevTextValue \u003d currentTextValue\n\t"
+      },
+      "persistent": false
+    },
+    "params.chaterId": {
+      "paramDirection": "input",
+      "persistent": true
+    },
+    "params.mode": {
+      "paramDirection": "input",
+      "persistent": true
+    }
+  },
+  "props": {},
+  "root": {
+    "children": [
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "meta": {
+                  "name": "Label Select Chat First"
+                },
+                "props": {
+                  "style": {
+                    "color": "#555555",
+                    "fontFamily": "Helvetica",
+                    "fontSize": "18px"
+                  },
+                  "text": "Please select a chat first from the chats list"
+                },
+                "type": "ia.display.label"
+              }
+            ],
+            "meta": {
+              "name": "FlexContainer Select Chat Warning"
+            },
+            "position": {
+              "basis": "200px",
+              "grow": 1
+            },
+            "propConfig": {
+              "position.display": {
+                "binding": {
+                  "config": {
+                    "expression": "if({view.custom.chatteeId}\u003dnull \u0026\u0026 {view.params.mode}\u003d\u0027web\u0027, true, false)"
+                  },
+                  "type": "expr"
+                }
+              }
+            },
+            "props": {
+              "alignItems": "center",
+              "direction": "column",
+              "justify": "center",
+              "style": {
+                "backgroundColor": "#2B2B2B"
+              }
+            },
+            "type": "ia.container.flex"
+          },
+          {
+            "children": [
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "events": {
+                          "dom": {
+                            "onClick": {
+                              "config": {
+                                "script": "\tsystem.perspective.sendMessage(\"backToChatsListView\")"
+                              },
+                              "scope": "G",
+                              "type": "script"
+                            }
+                          }
+                        },
+                        "meta": {
+                          "name": "Icon Back Mobile"
+                        },
+                        "position": {
+                          "basis": "30px",
+                          "shrink": 0
+                        },
+                        "propConfig": {
+                          "position.display": {
+                            "binding": {
+                              "config": {
+                                "expression": "if({view.params.mode}\u003d\u0027mobile\u0027, true, false)"
+                              },
+                              "type": "expr"
+                            }
+                          }
+                        },
+                        "props": {
+                          "color": "#AAAAAA",
+                          "path": "material/arrow_back_ios",
+                          "style": {
+                            "margin": "5px"
+                          }
+                        },
+                        "type": "ia.display.icon"
+                      },
+                      {
+                        "meta": {
+                          "name": "Image"
+                        },
+                        "propConfig": {
+                          "props.source": {
+                            "binding": {
+                              "config": {
+                                "expression": "\nif({view.custom.chatteeDetails[0].gender}\u003d\u0027male\u0027, \n\nif({view.custom.chatteeDetails[0].username}\u003d\u0027ibra\u0027, \"/system/images/users_profile_photos/ibra.jpg\",\u0027/system/images/Builtin/icons/32/businessman2.png\u0027),\n\n\n if({view.custom.chatteeDetails[0].username}\u003d\u0027denada\u0027,\"/system/images/users_profile_photos/denada.JPG\",\u0027/system/images/Builtin/icons/32/user3.png\u0027))\n"
+                              },
+                              "type": "expr"
+                            }
+                          }
+                        },
+                        "props": {
+                          "fit": {
+                            "height": 30,
+                            "mode": "fill",
+                            "width": 30
+                          },
+                          "style": {
+                            "borderColor": "#D5D5D5",
+                            "borderRadius": "50%",
+                            "margin": "5px"
+                          }
+                        },
+                        "type": "ia.display.image"
+                      },
+                      {
+                        "meta": {
+                          "name": "Label Chattee Name"
+                        },
+                        "position": {
+                          "shrink": 0
+                        },
+                        "propConfig": {
+                          "props.text": {
+                            "binding": {
+                              "config": {
+                                "expression": "if({view.custom.chatteeId}!\u003dnull, {view.custom.chatteeDetails[0].first_name} + \u0027 \u0027 + {view.custom.chatteeDetails[0].last_name} ,\u0027\u0027)"
+                              },
+                              "type": "expr"
+                            }
+                          }
+                        },
+                        "props": {
+                          "style": {
+                            "color": "#D5D5D5",
+                            "fontFamily": "Arial",
+                            "fontSize": "14px",
+                            "fontWeight": "bold"
+                          }
+                        },
+                        "type": "ia.display.label"
+                      }
+                    ],
+                    "meta": {
+                      "name": "FlexContainer Photo Username"
+                    },
+                    "position": {
+                      "grow": 1
+                    },
+                    "props": {
+                      "style": {
+                        "overflow": "hidden"
+                      }
+                    },
+                    "type": "ia.container.flex"
+                  },
+                  {
+                    "children": [
+                      {
+                        "meta": {
+                          "name": "Icon Search"
+                        },
+                        "position": {
+                          "basis": "30px",
+                          "shrink": 0
+                        },
+                        "props": {
+                          "color": "#AAAAAA",
+                          "path": "material/search",
+                          "style": {
+                            "cursor": "pointer",
+                            "margin": "5px"
+                          }
+                        },
+                        "type": "ia.display.icon"
+                      },
+                      {
+                        "meta": {
+                          "name": "Icon Video"
+                        },
+                        "position": {
+                          "basis": "30px",
+                          "shrink": 0
+                        },
+                        "props": {
+                          "color": "#AAAAAA",
+                          "path": "material/videocam",
+                          "style": {
+                            "cursor": "pointer",
+                            "margin": "5px"
+                          }
+                        },
+                        "type": "ia.display.icon"
+                      }
+                    ],
+                    "meta": {
+                      "name": "FlexContainer Tools"
+                    },
+                    "position": {
+                      "grow": 1
+                    },
+                    "props": {
+                      "justify": "flex-end",
+                      "style": {
+                        "overflow": "hidden"
+                      }
+                    },
+                    "type": "ia.container.flex"
+                  }
+                ],
+                "meta": {
+                  "name": "FlexContainer Header"
+                },
+                "position": {
+                  "basis": "50px",
+                  "shrink": 0
+                },
+                "props": {
+                  "justify": "space-between",
+                  "style": {
+                    "backgroundColor": "#2B2B2B",
+                    "overflow": "hidden"
+                  }
+                },
+                "type": "ia.container.flex"
+              },
+              {
+                "children": [
+                  {
+                    "meta": {
+                      "name": "FlexRepeater Messages"
+                    },
+                    "position": {
+                      "grow": 1
+                    },
+                    "propConfig": {
+                      "props.instances": {
+                        "binding": {
+                          "config": {
+                            "path": "view.custom.chatMessages"
+                          },
+                          "type": "property"
+                        }
+                      }
+                    },
+                    "props": {
+                      "alignContent": "flex-start",
+                      "alignItems": "flex-start",
+                      "direction": "column-reverse",
+                      "elementPosition": {
+                        "basis": "auto",
+                        "grow": 0,
+                        "shrink": 0
+                      },
+                      "loading": {
+                        "order": "with-parent"
+                      },
+                      "path": "chatApp/Message Container",
+                      "style": {
+                        "backgroundColor": "#1E1E1E",
+                        "overflow": "hidden",
+                        "overflowY": "scroll",
+                        "scrollbarColor": "#2B2B2B #000000"
+                      },
+                      "useDefaultViewHeight": false,
+                      "useDefaultViewWidth": false
+                    },
+                    "type": "ia.display.flex-repeater"
+                  }
+                ],
+                "meta": {
+                  "name": "FlexContainer Messages Area"
+                },
+                "position": {
+                  "basis": "80%",
+                  "grow": 1
+                },
+                "props": {
+                  "direction": "column",
+                  "style": {
+                    "borderBottomLeftRadius": "10px",
+                    "borderBottomRightRadius": "10px",
+                    "borderTopLeftRadius": "10px",
+                    "borderTopRightRadius": "10px",
+                    "overflow": "hidden"
+                  }
+                },
+                "type": "ia.container.flex"
+              },
+              {
+                "children": [
+                  {
+                    "events": {
+                      "dom": {
+                        "onBlur": {
+                          "config": {
+                            "script": "\tself.view.custom.typing \u003d 0"
+                          },
+                          "enabled": false,
+                          "scope": "G",
+                          "type": "script"
+                        },
+                        "onClick": {
+                          "config": {
+                            "script": "\tself.view.custom.typing \u003d 1"
+                          },
+                          "enabled": false,
+                          "scope": "G",
+                          "type": "script"
+                        },
+                        "onKeyUp": {
+                          "config": {
+                            "script": "\t\n\tif event.key \u003d\u003d \"Enter\" and not event.shiftKey:\n\t\tself.view.getChild(\"root\").sendMessage()"
+                          },
+                          "scope": "G",
+                          "type": "script"
+                        },
+                        "onMouseLeave": {
+                          "config": {
+                            "script": "\tself.view.custom.typing \u003d 0"
+                          },
+                          "enabled": false,
+                          "scope": "G",
+                          "type": "script"
+                        }
+                      }
+                    },
+                    "meta": {
+                      "name": "TextArea Message Text"
+                    },
+                    "position": {
+                      "grow": 1,
+                      "shrink": 0
+                    },
+                    "propConfig": {
+                      "props.text": {
+                        "binding": {
+                          "config": {
+                            "expression": "\u0027\u0027"
+                          },
+                          "type": "expr"
+                        }
+                      }
+                    },
+                    "props": {
+                      "deferUpdates": false,
+                      "placeholder": "Type in a message...",
+                      "rejectUpdatesWhileFocused": false,
+                      "style": {
+                        "backgroundColor": "#2B2B2B",
+                        "borderBottomLeftRadius": "10px",
+                        "borderBottomRightRadius": "10px",
+                        "borderBottomStyle": "none",
+                        "borderLeftStyle": "none",
+                        "borderRightStyle": "none",
+                        "borderTopLeftRadius": "10px",
+                        "borderTopRightRadius": "10px",
+                        "borderTopStyle": "none",
+                        "color": "#D5D5D5",
+                        "margin": "5px",
+                        "outline": "none",
+                        "scrollbarColor": "#2B2B2B #000000"
+                      }
+                    },
+                    "type": "ia.input.text-area"
+                  },
+                  {
+                    "events": {
+                      "component": {
+                        "onActionPerformed": {
+                          "config": {
+                            "script": "\tself.view.getChild(\"root\").sendMessage()"
+                          },
+                          "scope": "G",
+                          "type": "script"
+                        }
+                      }
+                    },
+                    "meta": {
+                      "name": "Button Send Message"
+                    },
+                    "props": {
+                      "image": {
+                        "height": 20,
+                        "icon": {
+                          "path": "material/send"
+                        },
+                        "width": 20
+                      },
+                      "style": {
+                        "borderStyle": "none",
+                        "classes": "dark-button-primary-green"
+                      },
+                      "text": ""
+                    },
+                    "type": "ia.input.button"
+                  }
+                ],
+                "meta": {
+                  "name": "FlexContainer Create Message"
+                },
+                "position": {
+                  "basis": "60px",
+                  "shrink": 0
+                },
+                "props": {
+                  "style": {
+                    "backgroundColor": "#2B2B2B",
+                    "overflow": "hidden"
+                  }
+                },
+                "type": "ia.container.flex"
+              }
+            ],
+            "meta": {
+              "name": "FlexContainer Chat Selected"
+            },
+            "position": {
+              "basis": "200px",
+              "grow": 1
+            },
+            "propConfig": {
+              "position.display": {
+                "binding": {
+                  "config": {
+                    "expression": "if({view.custom.chatteeId}!\u003dnull, true, false)"
+                  },
+                  "type": "expr"
+                }
+              }
+            },
+            "props": {
+              "direction": "column",
+              "style": {
+                "overflow": "hidden"
+              }
+            },
+            "type": "ia.container.flex"
+          }
+        ],
+        "meta": {
+          "name": "FlexContainer Main"
+        },
+        "position": {
+          "grow": 1
+        },
+        "props": {
+          "direction": "column",
+          "style": {
+            "overflow": "hidden"
+          }
+        },
+        "type": "ia.container.flex"
+      }
+    ],
+    "meta": {
+      "name": "root"
+    },
+    "props": {
+      "direction": "column",
+      "style": {
+        "marginLeft": "5px"
+      }
+    },
+    "scripts": {
+      "customMethods": [
+        {
+          "name": "sendMessage",
+          "params": [],
+          "script": "\t# implement your method here\n\tchatterId \u003d self.view.params.chaterId\n\ttext \u003d self.view.custom.messageText.replace(\"\u0027\", \"\\\\\u0027\")\n\ttext +\u003d \" \"\n\tif len(text) \u003d\u003d 0:\n\t\treturn \n\t\n\t\n\tchatId \u003d self.view.custom.chatId\n\t#text \u003d \n\t# insert the message into the messages table\n\tmsgId \u003d system.db.runUpdateQuery(\"INSERT INTO messages (user_id, text) \" + \"VALUES (%d, \u0027%s\u0027)\"%(chatterId , text),database\u003d\"db_chatApp\", getKey\u003d1)\n\t\n\t# clear the message text in the text area\n\tself.view.custom.messageText \u003d \u0027\u0027\n\tself.view.custom.typing \u003d 0\n\t\n\tchatteeId \u003d self.view.custom.chatteeId \n\t# use that message ID to insert into recepients table\n\tmsgIdRecTable \u003d system.db.runUpdateQuery(\"INSERT INTO message_recipients (message_id, user_id, status) \" + \"VALUES (%d, %d, \u0027%s\u0027)\" %(msgId , chatteeId, \"delivered\"),database\u003d\"db_chatApp\", getKey\u003d1)\n\t\n\t\n\t# now update the message status to delivered also in the messages table\n\tmsgId \u003d system.db.runUpdateQuery(\"UPDATE messages SET status \u003d \u0027delivered\u0027 WHERE id \u003d %d\"%(msgId),database\u003d\"db_chatApp\", getKey\u003d1)\n\t\n\t\n\t# update the last_updated_on for that chat in the chats table\n\tlastUpdatedOn \u003d system.date.format(system.date.now(), \"YYYY-MM-dd HH:mm:ss\")\n\tmsgId \u003d system.db.runUpdateQuery(\"UPDATE chats SET last_updated_on \u003d \\\"{0}\\\" WHERE id \u003d {1}\".format(lastUpdatedOn, chatId),database\u003d\"db_chatApp\", getKey\u003d1)\n\t\n\t\n\t# update the chatsList to show the most recent chats on top of the list\n\t#system.perspective.sendMessage(\"updateChatsList\")"
+        }
+      ],
+      "extensionFunctions": null,
+      "messageHandlers": [
+        {
+          "messageType": "refreshUserInChatSelection",
+          "pageScope": true,
+          "script": "\t# implement your handler here\n\tself.view.custom.chatteeId \u003d payload[\"user_id\"]\n\tself.view.custom.chatId \u003d payload[\"chat_id\"]\n\t",
+          "sessionScope": false,
+          "viewScope": false
+        },
+        {
+          "messageType": "logoutUser",
+          "pageScope": true,
+          "script": "\t# implement your handler here\n\tself.view.custom.messageText \u003d \u0027\u0027\n\tself.view.custom.chatteeId \u003d None\n\tself.view.custom.chatId \u003d None",
+          "sessionScope": false,
+          "viewScope": false
+        }
+      ]
+    },
+    "type": "ia.container.flex"
+  }
+}

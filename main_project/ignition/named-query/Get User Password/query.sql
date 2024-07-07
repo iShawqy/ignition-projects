@@ -1,0 +1,1 @@
+SELECT password,id from users where username = :username

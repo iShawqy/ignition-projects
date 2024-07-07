@@ -1,0 +1,1 @@
+SELECT typing from chat_participants where user_id = :user_id and chat_id = :chat_id

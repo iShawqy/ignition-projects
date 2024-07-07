@@ -1,0 +1,50 @@
+{
+  "scope": "DG",
+  "version": 2,
+  "restricted": false,
+  "overridable": true,
+  "files": [
+    "query.sql"
+  ],
+  "attributes": {
+    "useMaxReturnSize": false,
+    "autoBatchEnabled": false,
+    "fallbackValue": "",
+    "maxReturnSize": 100,
+    "cacheUnit": "SEC",
+    "type": "UpdateQuery",
+    "enabled": true,
+    "cacheAmount": 1,
+    "cacheEnabled": false,
+    "database": "",
+    "fallbackEnabled": false,
+    "lastModificationSignature": "629392af999f3687c9fc31af191bb71d4e62e61eee4216d97d03cdfd6835f12b",
+    "permissions": [
+      {
+        "zone": "",
+        "role": ""
+      }
+    ],
+    "lastModification": {
+      "actor": "Ibra",
+      "timestamp": "2024-06-02T08:31:16Z"
+    },
+    "parameters": [
+      {
+        "type": "Parameter",
+        "identifier": "archived",
+        "sqlType": 3
+      },
+      {
+        "type": "Parameter",
+        "identifier": "chatId",
+        "sqlType": 3
+      },
+      {
+        "type": "Parameter",
+        "identifier": "archived_by",
+        "sqlType": 3
+      }
+    ]
+  }
+}

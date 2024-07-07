@@ -1,0 +1,1 @@
+INSERT INTO chats (created_by) VALUES (:created_by)

@@ -1,0 +1,50 @@
+{
+  "base": {
+    "style": {
+      "backgroundColor": "#FFFFFF",
+      "borderColor": "#2B2B2B",
+      "borderStyle": "solid",
+      "borderWidth": "2px",
+      "borderTopLeftRadius": "10px",
+      "borderTopRightRadius": "10px",
+      "borderBottomLeftRadius": "10px",
+      "borderBottomRightRadius": "10px",
+      "color": "#2B2B2B",
+      "fontFamily": "Arial",
+      "margin": "5px",
+      "padding": "5px"
+    }
+  },
+  "variants": [
+    {
+      "pseudo": "active",
+      "animation": {
+        "duration": "0.1s",
+        "direction": "normal",
+        "iterationCount": "1",
+        "keyframes": {
+          "0%": {},
+          "100%": {
+            "backgroundColor": "#2B2B2B",
+            "color": "#FFFFFF"
+          }
+        }
+      }
+    },
+    {
+      "pseudo": "hover",
+      "animation": {
+        "duration": "0.1s",
+        "direction": "normal",
+        "iterationCount": "1",
+        "keyframes": {
+          "0%": {},
+          "100%": {
+            "backgroundColor": "#2B2B2B",
+            "color": "#FFFFFF"
+          }
+        }
+      }
+    }
+  ]
+}
