@@ -11,5 +11,6 @@ A repo that contains multiple ignition perspective projects for sharing with the
 Under the views folder, there will be folder for each new app. The first app i developed for this repo was the chatApp. To run the chatApp and any future app, please open the Main view under the app directory and run it.
 For example, you can find the chatApp in the designer under: 
 - views/chatApp
+  
 To run the app, please run the following view:
 - chatApp/Main
