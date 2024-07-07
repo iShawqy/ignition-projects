@@ -27,4 +27,8 @@ To run the app in the browser, please replace "your_project_name" in the followi
 
 
 ## Project SQL schemas and tables
-I am using currently MySQL db for the projects in this repo. For each app under the views directoy, there will be some sql create schema and tables file. You can find those files under: 
+I am using currently MySQL db for the projects in this repo. For each app under the views directoy, there will be some sql create schema and tables file. You can find those files under: sql_create_statements
+
+
+## App 1: chatApp:
+1. Please create the chatApp sql schema and all the tables using the file: sql_create_statements/chatApp_db_schema_tables_create_statements.sql
