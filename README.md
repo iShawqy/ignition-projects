@@ -14,3 +14,6 @@ For example, you can find the chatApp in the designer under:
   
 To run the app, please run the following view:
 - chatApp/Main
+
+To run the app in the browser, please replace "your_project_name" in the following link and go to: 
+- http://localhost:8088/data/perspective/client/your_project_name/chatApp/main
