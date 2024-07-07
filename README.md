@@ -2,12 +2,19 @@
 A repo that contains multiple ignition perspective projects for sharing with the ignition community
 
 ## How to use the project?
+
+### Method 1:
+You can download the main_project.zip file and import it directly into your ignition gateway. You can give the project any name you like during the import process.
+
+### Method 2:
 1. Please zip/compress all the contents of the main_project folder and import it to your gateway as a new project.
-2. Copy the myTheme.css from the them css_theme folder and add it under:
+2. Feel free to give the project a new name while importing it to your gateway.
+3. Copy the myTheme.css from the them css_theme folder and add it under:
 ```
 /usr/local/ignition/data/modules/com.inductiveautomation.perspective/themes/myTheme.css
 ```
 ## How is the project structured in the designer?
+
 Under the views folder, there will be folder for each new app. The first app i developed for this repo was the chatApp. To run the chatApp and any future app, please open the Main view under the app directory and run it.
 For example, you can find the chatApp in the designer under: 
 - views/chatApp
