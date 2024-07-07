@@ -6,4 +6,4 @@ A repo that contains multiple ignition perspective projects for sharing with the
 2. Copy the myTheme.css from the them css_theme folder and add it under:
 ```
 /usr/local/ignition/data/modules/com.inductiveautomation.perspective/themes/myTheme.css
-
+```
