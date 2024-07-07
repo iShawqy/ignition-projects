@@ -24,3 +24,7 @@ To run the app, please run the following view:
 
 To run the app in the browser, please replace "your_project_name" in the following link and go to: 
 - http://localhost:8088/data/perspective/client/your_project_name/chatApp/main
+
+
+## Project SQL schemas and tables
+I am using currently MySQL db for the projects in this repo. For each app under the views directoy, there will be some sql create schema and tables file. You can find those files under: 
